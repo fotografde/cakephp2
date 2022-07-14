@@ -29,14 +29,13 @@ class CakeTestLoader extends PHPUnit_Runner_StandardTestSuiteLoader {
 
 /**
  * Load a file and find the first test case / suite in that file.
- *
- * @param string $filePath The file path to load
- * @param string $params Additional parameters
- * @return ReflectionClass
  */
-	public function load($filePath, $params = '') {
-		$file = $this->_resolveTestFile($filePath, $params);
-		return parent::load('', $file);
+	public function load(string $suiteClassName, string $suiteClassFile = ''): ReflectionClass {
+		return parent::load($suiteClassName, $suiteClassFile);
+	}
+
+	public function resolveTestCasePathArray(array $testParams) {
+		return $this->_resolveTestFile($testParams['case'], $testParams);
 	}
 
 /**

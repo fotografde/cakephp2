@@ -123,10 +123,10 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
 /**
  * Print result
  *
- * @param PHPUnit_Framework_TestResult $result The result object
+ * @param PHPUnit\Framework\TestResult $result The result object
  * @return void
  */
-	public function printResult(PHPUnit_Framework_TestResult $result) {
+	public function printResult(PHPUnit\Framework\TestResult $result): void {
 		$this->paintFooter($result);
 	}
 
@@ -144,12 +144,12 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
  * An error occurred.
  *
  * @param PHPUnit_Framework_Test $test The test to add an error for.
- * @param Exception $e The exception object to add.
+ * @param Exception $t The exception object to add.
  * @param float $time The current time.
  * @return void
  */
-	public function addError(PHPUnit_Framework_Test $test, Exception $e, $time) {
-		$this->paintException($e, $test);
+	public function addError(PHPUnit_Framework_Test $test, Throwable $t, float $time): void {
+		$this->paintException($t, $test);
 	}
 
 /**
@@ -160,7 +160,7 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
  * @param float $time The current time.
  * @return void
  */
-	public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
+	public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, float $time): void {
 		$this->paintFail($e, $test);
 	}
 
@@ -172,7 +172,7 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
  * @param float $time The current time.
  * @return void
  */
-	public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
+	public function addIncompleteTest(PHPUnit_Framework_Test $test, Throwable $e, float $time): void {
 		$this->paintSkip($e, $test);
 	}
 
@@ -184,7 +184,7 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
  * @param float $time The current time.
  * @return void
  */
-	public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
+	public function addSkippedTest(PHPUnit_Framework_Test $test, Throwable $e, float $time): void {
 		$this->paintSkip($e, $test);
 	}
 
@@ -194,7 +194,7 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
  * @param PHPUnit_Framework_TestSuite $suite The suite to start
  * @return void
  */
-	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
+	public function startTestSuite(PHPUnit_Framework_TestSuite $suite): void {
 		if (!$this->_headerSent) {
 			echo $this->paintHeader();
 		}
@@ -207,7 +207,7 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
  * @param PHPUnit_Framework_TestSuite $suite The suite that ended.
  * @return void
  */
-	public function endTestSuite(PHPUnit_Framework_TestSuite $suite) {
+	public function endTestSuite(PHPUnit_Framework_TestSuite $suite): void {
 	}
 
 /**
@@ -216,7 +216,7 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
  * @param PHPUnit_Framework_Test $test The test that started.
  * @return void
  */
-	public function startTest(PHPUnit_Framework_Test $test) {
+	public function startTest(PHPUnit_Framework_Test $test): void {
 	}
 
 /**
@@ -226,12 +226,11 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
  * @param float $time The current time.
  * @return void
  */
-	public function endTest(PHPUnit_Framework_Test $test, $time) {
+	public function endTest(PHPUnit_Framework_Test $test, float $time): void {
 		$this->numAssertions += $test->getNumAssertions();
 		if ($test->hasFailed()) {
 			return;
 		}
 		$this->paintPass($test, $time);
 	}
-
 }

@@ -405,7 +405,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  * @param PHPUnit_Framework_TestSuite $suite The test suite to start.
  * @return void
  */
-	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
+	public function startTestSuite(PHPUnit_Framework_TestSuite $suite): void {
 		if (!$this->_headerSent) {
 			$this->paintHeader();
 		}
@@ -414,7 +414,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 
 /**
  * Returns the query string formatted for ouput in links
- * 
+ *
  * @return string
  */
 	protected function _getQueryLink() {

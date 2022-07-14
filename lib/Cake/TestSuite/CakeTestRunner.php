@@ -54,9 +54,9 @@ class CakeTestRunner extends PHPUnit_TextUI_TestRunner {
  * @param array $arguments The CLI arguments
  * @param bool $exit Exits by default or returns the results
  * This argument is ignored if >PHPUnit5.2.0
- * @return void
+ * @return TestResult
  */
-	public function doRun(PHPUnit_Framework_Test $suite, array $arguments = array(), $exit = true) {
+	public function doRun(PHPUnit_Framework_Test $suite, array $arguments = array(), $exit = true): PHPUnit_Framework_TestResult {
 		if (isset($arguments['printer'])) {
 			static::$versionStringPrinted = true;
 		}
@@ -84,7 +84,7 @@ class CakeTestRunner extends PHPUnit_TextUI_TestRunner {
  *
  * @return PHPUnit_Framework_TestResult
  */
-	protected function createTestResult() {
+	protected function createTestResult(): PHPUnit_Framework_TestResult {
 		$result = new PHPUnit_Framework_TestResult;
 		if (!empty($this->_params['codeCoverage'])) {
 			if (method_exists($result, 'collectCodeCoverageInformation')) {

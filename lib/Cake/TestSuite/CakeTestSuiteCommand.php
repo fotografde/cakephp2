@@ -59,9 +59,9 @@ class CakeTestSuiteCommand extends PHPUnit_TextUI_Command {
  *
  * @param array $argv The command arguments
  * @param bool $exit The exit mode.
- * @return void
+ * @return int
  */
-	public function run(array $argv, $exit = true) {
+	public function run(array $argv, bool $exit = true): int {
 		$this->handleArguments($argv);
 
 		$runner = $this->getRunner($this->arguments['loader']);
@@ -70,10 +70,22 @@ class CakeTestSuiteCommand extends PHPUnit_TextUI_Command {
 			$this->arguments['test'] instanceof PHPUnit_Framework_Test) {
 			$suite = $this->arguments['test'];
 		} else {
-			$suite = $runner->getTest(
-				$this->arguments['test'],
-				$this->arguments['testFile']
-			);
+
+			if(is_array($this->arguments['testFile'])) {
+				$testfile = $this->arguments['loader']->resolveTestCasePathArray($this->arguments['testFile']);
+
+				$suite = $runner->getTest(
+					$this->arguments['test'],
+					$testfile
+				);
+
+			} else {
+				$suite = $runner->getTest(
+					(string) $this->arguments['test'],
+					(string) $this->arguments['testFile']
+				);
+			}
+
 		}
 
 		if ($this->arguments['listGroups']) {
