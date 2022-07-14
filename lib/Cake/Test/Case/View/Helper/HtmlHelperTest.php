@@ -143,7 +143,7 @@ class HtmlHelperTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->View = $this->getMock('View', array('append'), array(new TheHtmlTestController()));
 		$this->Html = new TestHtmlHelper($this->View);
@@ -162,7 +162,7 @@ class HtmlHelperTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 		unset($this->Html, $this->View);
 	}
@@ -577,12 +577,12 @@ class HtmlHelperTest extends CakeTestCase {
 	}
 
 /**
- * testLoadConfigWrongFile method
- *
- * @return void
- * @expectedException InvalidArgumentException
- */
+	 * testLoadConfigWrongFile method
+	 *
+	 * @return void
+	 */
 	public function testBase64InvalidArgumentException() {
+		$this->expectException(\InvalidArgumentException::class);
 		$this->Html->request->webroot = '';
 		$this->Html->image('non-existent-image.png', array('base64' => true));
 	}
@@ -627,12 +627,12 @@ class HtmlHelperTest extends CakeTestCase {
 
 		$result = $this->Html->style(array('display' => 'none', 'margin' => '10px'));
 		$expected = 'display:none; margin:10px;';
-		$this->assertRegExp('/^display\s*:\s*none\s*;\s*margin\s*:\s*10px\s*;?$/', $expected);
+		$this->assertMatchesRegularExpression('/^display\s*:\s*none\s*;\s*margin\s*:\s*10px\s*;?$/', $expected);
 
 		$result = $this->Html->style(array('display' => 'none', 'margin' => '10px'), false);
 		$lines = explode("\n", $result);
-		$this->assertRegExp('/^\s*display\s*:\s*none\s*;\s*$/', $lines[0]);
-		$this->assertRegExp('/^\s*margin\s*:\s*10px\s*;?$/', $lines[1]);
+		$this->assertMatchesRegularExpression('/^\s*display\s*:\s*none\s*;\s*$/', $lines[0]);
+		$this->assertMatchesRegularExpression('/^\s*margin\s*:\s*10px\s*;?$/', $lines[1]);
 	}
 
 /**
@@ -934,10 +934,10 @@ class HtmlHelperTest extends CakeTestCase {
 	}
 
 /**
- * Resource names must be treated differently for css() and script()
- *
- * @return void
- */
+	 * Resource names must be treated differently for css() and script()
+	 *
+	 * @return void
+	 */
 	public function testBufferedCssAndScriptWithIdenticalResourceName() {
 		$this->View->expects($this->at(0))
 			->method('append')
@@ -964,12 +964,12 @@ class HtmlHelperTest extends CakeTestCase {
 		$timestamp = substr(strtotime('now'), 0, 8);
 
 		$result = $this->Html->script('__cake_js_test', array('inline' => true, 'once' => false));
-		$this->assertRegExp('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
+		$this->assertMatchesRegularExpression('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
 
 		Configure::write('debug', 0);
 		Configure::write('Asset.timestamp', 'force');
 		$result = $this->Html->script('__cake_js_test', array('inline' => true, 'once' => false));
-		$this->assertRegExp('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
+		$this->assertMatchesRegularExpression('/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
 		unlink(WWW_ROOT . 'js' . DS . '__cake_js_test.js');
 		Configure::write('Asset.timestamp', false);
 	}
@@ -993,12 +993,12 @@ class HtmlHelperTest extends CakeTestCase {
 		$timestamp = substr(strtotime('now'), 0, 8);
 
 		$result = $this->Html->script('TestPlugin.__cake_js_test', array('inline' => true, 'once' => false));
-		$this->assertRegExp('/test_plugin\/js\/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
+		$this->assertMatchesRegularExpression('/test_plugin\/js\/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
 
 		Configure::write('debug', 0);
 		Configure::write('Asset.timestamp', 'force');
 		$result = $this->Html->script('TestPlugin.__cake_js_test', array('inline' => true, 'once' => false));
-		$this->assertRegExp('/test_plugin\/js\/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
+		$this->assertMatchesRegularExpression('/test_plugin\/js\/__cake_js_test.js\?' . $timestamp . '[0-9]{2}"/', $result, 'Timestamp value not found %s');
 		unlink($pluginJsPath . DS . '__cake_js_test.js');
 		Configure::write('Asset.timestamp', false);
 
@@ -1088,7 +1088,7 @@ class HtmlHelperTest extends CakeTestCase {
 		$this->assertNull($result, 'Script returned upon duplicate inclusion %s');
 
 		$result = $this->Html->script(array('foo', 'bar', 'baz'));
-		$this->assertNotRegExp('/foo.js/', $result);
+		$this->assertDoesNotMatchRegularExpression('/foo.js/', $result);
 
 		$result = $this->Html->script('foo', array('inline' => true, 'once' => false));
 		$this->assertNotNull($result);
@@ -1152,7 +1152,7 @@ class HtmlHelperTest extends CakeTestCase {
 		$this->assertNull($result, 'Script returned upon duplicate inclusion %s');
 
 		$result = $this->Html->script(array('TestPlugin.foo', 'TestPlugin.bar', 'TestPlugin.baz'));
-		$this->assertNotRegExp('/test_plugin\/js\/foo.js/', $result);
+		$this->assertDoesNotMatchRegularExpression('/test_plugin\/js\/foo.js/', $result);
 
 		$result = $this->Html->script('TestPlugin.foo', array('inline' => true, 'once' => false));
 		$this->assertNotNull($result);
@@ -2318,22 +2318,22 @@ class HtmlHelperTest extends CakeTestCase {
 	}
 
 /**
- * testLoadConfigWrongFile method
- *
- * @return void
- * @expectedException ConfigureException
- */
+	 * testLoadConfigWrongFile method
+	 *
+	 * @return void
+	 */
 	public function testLoadConfigWrongFile() {
+		$this->expectException(\ConfigureException::class);
 		$this->Html->loadConfig('wrong_file');
 	}
 
 /**
- * testLoadConfigWrongReader method
- *
- * @return void
- * @expectedException ConfigureException
- */
+	 * testLoadConfigWrongReader method
+	 *
+	 * @return void
+	 */
 	public function testLoadConfigWrongReader() {
+		$this->expectException(\ConfigureException::class);
 		$path = CAKE . 'Test' . DS . 'test_app' . DS . 'Config' . DS;
 		$this->Html->loadConfig(array('htmlhelper_tags', 'wrong_reader'), $path);
 	}
