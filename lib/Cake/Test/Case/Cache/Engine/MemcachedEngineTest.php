@@ -356,7 +356,7 @@ class MemcachedEngineTest extends CakeTestCase {
 			'password' => 'password'
 		);
 
-		$this->setExpectedException('PHPUnit_Framework_Error_Warning');
+		$this->setExpectedException('PHPUnit\Framework\Error\Warning');
 		$Memcached->init($settings);
 	}
 

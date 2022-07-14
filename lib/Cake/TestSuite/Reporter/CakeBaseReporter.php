@@ -15,7 +15,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-if (!class_exists('PHPUnit_TextUI_ResultPrinter')) {
+if (!class_exists('PHPUnit\TextUI\ResultPrinter')) {
 	require_once 'PHPUnit/TextUI/ResultPrinter.php';
 }
 
@@ -24,7 +24,7 @@ if (!class_exists('PHPUnit_TextUI_ResultPrinter')) {
  *
  * @package       Cake.TestSuite.Reporter
  */
-class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
+class CakeBaseReporter extends PHPUnit\TextUI\ResultPrinter {
 
 /**
  * Headers sent
@@ -133,68 +133,68 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
 /**
  * Paint result
  *
- * @param PHPUnit_Framework_TestResult $result The result object
+ * @param PHPUnit\Framework\TestResult $result The result object
  * @return void
  */
-	public function paintResult(PHPUnit_Framework_TestResult $result) {
+	public function paintResult(PHPUnit\Framework\TestResult $result) {
 		$this->paintFooter($result);
 	}
 
 /**
  * An error occurred.
  *
- * @param PHPUnit_Framework_Test $test The test to add an error for.
+ * @param PHPUnit\Framework\Test $test The test to add an error for.
  * @param Exception $t The exception object to add.
  * @param float $time The current time.
  * @return void
  */
-	public function addError(PHPUnit_Framework_Test $test, Throwable $t, float $time): void {
+	public function addError(PHPUnit\Framework\Test $test, Throwable $t, float $time): void {
 		$this->paintException($t, $test);
 	}
 
 /**
  * A failure occurred.
  *
- * @param PHPUnit_Framework_Test $test The test that failed
- * @param PHPUnit_Framework_AssertionFailedError $e The assertion that failed.
+ * @param PHPUnit\Framework\Test $test The test that failed
+ * @param PHPUnit\Framework\AssertionFailedError $e The assertion that failed.
  * @param float $time The current time.
  * @return void
  */
-	public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, float $time): void {
+	public function addFailure(PHPUnit\Framework\Test $test, PHPUnit\Framework\AssertionFailedError $e, float $time): void {
 		$this->paintFail($e, $test);
 	}
 
 /**
  * Incomplete test.
  *
- * @param PHPUnit_Framework_Test $test The test that was incomplete.
+ * @param PHPUnit\Framework\Test $test The test that was incomplete.
  * @param Exception $e The incomplete exception
  * @param float $time The current time.
  * @return void
  */
-	public function addIncompleteTest(PHPUnit_Framework_Test $test, Throwable $e, float $time): void {
+	public function addIncompleteTest(PHPUnit\Framework\Test $test, Throwable $e, float $time): void {
 		$this->paintSkip($e, $test);
 	}
 
 /**
  * Skipped test.
  *
- * @param PHPUnit_Framework_Test $test The test that failed.
+ * @param PHPUnit\Framework\Test $test The test that failed.
  * @param Exception $e The skip object.
  * @param float $time The current time.
  * @return void
  */
-	public function addSkippedTest(PHPUnit_Framework_Test $test, Throwable $e, float $time): void {
+	public function addSkippedTest(PHPUnit\Framework\Test $test, Throwable $e, float $time): void {
 		$this->paintSkip($e, $test);
 	}
 
 /**
  * A test suite started.
  *
- * @param PHPUnit_Framework_TestSuite $suite The suite to start
+ * @param PHPUnit\Framework\TestSuite $suite The suite to start
  * @return void
  */
-	public function startTestSuite(PHPUnit_Framework_TestSuite $suite): void {
+	public function startTestSuite(PHPUnit\Framework\TestSuite $suite): void {
 		if (!$this->_headerSent) {
 			echo $this->paintHeader();
 		}
@@ -204,29 +204,29 @@ class CakeBaseReporter extends PHPUnit_TextUI_ResultPrinter {
 /**
  * A test suite ended.
  *
- * @param PHPUnit_Framework_TestSuite $suite The suite that ended.
+ * @param PHPUnit\Framework\TestSuite $suite The suite that ended.
  * @return void
  */
-	public function endTestSuite(PHPUnit_Framework_TestSuite $suite): void {
+	public function endTestSuite(PHPUnit\Framework\TestSuite $suite): void {
 	}
 
 /**
  * A test started.
  *
- * @param PHPUnit_Framework_Test $test The test that started.
+ * @param PHPUnit\Framework\Test $test The test that started.
  * @return void
  */
-	public function startTest(PHPUnit_Framework_Test $test): void {
+	public function startTest(PHPUnit\Framework\Test $test): void {
 	}
 
 /**
  * A test ended.
  *
- * @param PHPUnit_Framework_Test $test The test that ended
+ * @param PHPUnit\Framework\Test $test The test that ended
  * @param float $time The current time.
  * @return void
  */
-	public function endTest(PHPUnit_Framework_Test $test, float $time): void {
+	public function endTest(PHPUnit\Framework\Test $test, float $time): void {
 		$this->numAssertions += $test->getNumAssertions();
 		if ($test->hasFailed()) {
 			return;

@@ -149,7 +149,7 @@ class CakeTestSuiteDispatcher {
  * @return bool true if found, false otherwise
  */
 	public function loadTestFramework() {
-		if (class_exists('PHPUnit_Framework_TestCase')) {
+		if (class_exists('PHPUnit\Framework\TestCase')) {
 			return true;
 		}
 		$phpunitPath = 'phpunit' . DS . 'phpunit';
@@ -177,8 +177,35 @@ class CakeTestSuiteDispatcher {
 				return $included;
 			}
 		}
-		include 'PHPUnit' . DS . 'Autoload.php';
-		return class_exists('PHPUnit_Framework_TestCase');
+
+		if (!ini_get('date.timezone')) {
+			ini_set('date.timezone', 'UTC');
+		}
+
+		/**
+		 * Check if composer is available to ensure PHPUnit Autoloading
+		 */
+		$composerPath = realpath(__DIR__ . '/../../vendors/autoload.php');
+		if (file_exists($composerPath)) {
+			define('PHPUNIT_COMPOSER_INSTALL', $composerPath);
+		}
+
+		unset($composerPath);
+
+		if (!defined('PHPUNIT_COMPOSER_INSTALL')) {
+			fwrite(
+				STDERR,
+				'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
+				'    composer install' . PHP_EOL . PHP_EOL .
+				'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
+			);
+
+			die(1);
+		}
+
+		require PHPUNIT_COMPOSER_INSTALL;
+
+		return class_exists('PHPUnit\Framework\TestCase');
 	}
 
 /**
