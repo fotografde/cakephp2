@@ -779,7 +779,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
  * @return Model
  */
 	public function getMockForModel($model, $methods = array(), $config = array()) {
-		$defaults = ClassRegistry::config('Model');
+		$defaults = ClassRegistry::config('Model') ?? [];
 		unset($defaults['ds']);
 
 		[$plugin, $name] = pluginSplit($model, true);
