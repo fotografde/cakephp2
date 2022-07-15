@@ -1,7 +1,9 @@
 {
-	"name": "fotografde/cakephp2",
-	"description": "FORK of CakePHP 2",
+	"name": "cakephp/cakephp",
+	"description": "The CakePHP framework",
 	"type": "library",
+	"keywords": ["framework"],
+	"homepage": "https://cakephp.org",
 	"license": "MIT",
 	"authors": [
 		{
@@ -9,6 +11,12 @@
 			"homepage": "https://github.com/cakephp/cakephp/graphs/contributors"
 		}
 	],
+	"support": {
+		"issues": "https://github.com/cakephp/cakephp/issues",
+		"forum": "https://stackoverflow.com/tags/cakephp",
+		"irc": "irc://irc.freenode.org/cakephp",
+		"source": "https://github.com/cakephp/cakephp"
+	},
 	"require": {
 		"php": "^7.3 || ^7.4"
 	},
