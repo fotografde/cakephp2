@@ -231,12 +231,12 @@ class CakeException extends CakeBaseException {
  *   that are made available in the view, and sprintf()'d into CakeException::$_messageTemplate
  * @param int $code The code of the error, is also the HTTP status code for the error.
  */
-	public function __construct($message, $code = 500) {
+	public function __construct($message, $code = 500, Throwable $previous = null) {
 		if (is_array($message)) {
 			$this->_attributes = $message;
 			$message = __d('cake_dev', $this->_messageTemplate, $message);
 		}
-		parent::__construct($message, $code);
+		parent::__construct($message, $code, $previous);
 	}
 
 /**
