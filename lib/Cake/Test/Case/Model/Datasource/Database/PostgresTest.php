@@ -214,7 +214,7 @@ class PostgresTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		Configure::write('Cache.disable', true);
 		$this->Dbo = ConnectionManager::getDataSource('test');
@@ -228,7 +228,7 @@ class PostgresTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		Configure::write('Cache.disable', false);
 		unset($this->Dbo2);
@@ -530,7 +530,7 @@ class PostgresTest extends CakeTestCase {
 		));
 
 		$result = $this->Dbo->createSchema($schema);
-		$this->assertDoesNotMatchRegularExpression('/^CREATE INDEX(.+);,$/', $result);
+		$this->assertNotRegExp('/^CREATE INDEX(.+);,$/', $result);
 	}
 
 /**
@@ -566,8 +566,8 @@ class PostgresTest extends CakeTestCase {
 		);
 		$result = $db1->createSchema($schema, 'datatype_tests');
 
-		$this->assertDoesNotMatchRegularExpression('/timestamp DEFAULT/', $result);
-		$this->assertMatchesRegularExpression('/\"full_length\"\s*text\s.*,/', $result);
+		$this->assertNotRegExp('/timestamp DEFAULT/', $result);
+		$this->assertRegExp('/\"full_length\"\s*text\s.*,/', $result);
 		$this->assertContains('timestamp ,', $result);
 		$this->assertContains('"huge_int" bigint NOT NULL,', $result);
 
@@ -709,7 +709,7 @@ class PostgresTest extends CakeTestCase {
 			)
 		));
 		$result = $this->Dbo->alterSchema($New->compare($Old), 'alter_posts');
-		$this->assertDoesNotMatchRegularExpression('/varchar\(36\) NOT NULL/i', $result);
+		$this->assertNotRegExp('/varchar\(36\) NOT NULL/i', $result);
 	}
 
 /**
@@ -1015,10 +1015,10 @@ class PostgresTest extends CakeTestCase {
 	}
 
 /**
-	 * Test truncate with a mock.
-	 *
-	 * @return void
-	 */
+ * Test truncate with a mock.
+ *
+ * @return void
+ */
 	public function testTruncateStatements() {
 		$this->loadFixtures('Article', 'User');
 		$db = ConnectionManager::getDatasource('test');
@@ -1141,7 +1141,7 @@ class PostgresTest extends CakeTestCase {
 
 		$result = $db->limit(10, 300000000000000000000000000000);
 		$scientificNotation = sprintf('%.1E', 300000000000000000000000000000);
-		$this->assertStringNotContainsString($scientificNotation, $result);
+		$this->assertNotContains($scientificNotation, $result);
 	}
 
 /**

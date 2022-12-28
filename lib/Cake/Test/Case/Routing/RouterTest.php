@@ -35,7 +35,7 @@ class RouterTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		Configure::write('Routing', array('admin' => null, 'prefixes' => array()));
 	}
@@ -45,7 +45,7 @@ class RouterTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		CakePlugin::unload();
 		Router::fullBaseUrl('');
@@ -58,9 +58,9 @@ class RouterTest extends CakeTestCase {
  * @return void
  */
 	public function testFullBaseUrl() {
-		$this->assertMatchesRegularExpression('/^http(s)?:\/\//', Router::url('/', true));
-		$this->assertMatchesRegularExpression('/^http(s)?:\/\//', Router::url(null, true));
-		$this->assertMatchesRegularExpression('/^http(s)?:\/\//', Router::url(array('full_base' => true)));
+		$this->assertRegExp('/^http(s)?:\/\//', Router::url('/', true));
+		$this->assertRegExp('/^http(s)?:\/\//', Router::url(null, true));
+		$this->assertRegExp('/^http(s)?:\/\//', Router::url(array('full_base' => true)));
 		$this->assertSame(FULL_BASE_URL . '/', Router::url(array('full_base' => true)));
 	}
 
@@ -2448,12 +2448,12 @@ class RouterTest extends CakeTestCase {
 	}
 
 /**
-	 * test that route classes must extend CakeRoute
-	 *
-	 * @return void
-	 */
+ * test that route classes must extend CakeRoute
+ *
+ * @expectedException RouterException
+ * @return void
+ */
 	public function testCustomRouteException() {
-		$this->expectException(\RouterException::class);
 		Router::connect('/:controller', array(), array('routeClass' => 'CakeObject'));
 	}
 
@@ -2551,7 +2551,7 @@ class RouterTest extends CakeTestCase {
 			'url' => array('url' => 'eng/posts/view/1'),
 		);
 		$result = Router::reverse($params, true);
-		$this->assertMatchesRegularExpression('/^http(s)?:\/\//', $result);
+		$this->assertRegExp('/^http(s)?:\/\//', $result);
 	}
 
 	public function testReverseToArrayNamed() {
@@ -2838,33 +2838,33 @@ class RouterTest extends CakeTestCase {
 	}
 
 /**
-	 * Test that route classes must extend CakeRoute
-	 *
-	 * @return void
-	 */
+ * Test that route classes must extend CakeRoute
+ *
+ * @expectedException RouterException
+ * @return void
+ */
 	public function testDefaultRouteException() {
-		$this->expectException(\RouterException::class);
 		Router::defaultRouteClass('');
 		Router::connect('/:controller', array());
 	}
 
 /**
-	 * Test that route classes must extend CakeRoute
-	 *
-	 * @return void
-	 */
+ * Test that route classes must extend CakeRoute
+ *
+ * @expectedException RouterException
+ * @return void
+ */
 	public function testSettingInvalidDefaultRouteException() {
-		$this->expectException(\RouterException::class);
 		Router::defaultRouteClass('CakeObject');
 	}
 
 /**
-	 * Test that class must exist
-	 *
-	 * @return void
-	 */
+ * Test that class must exist
+ *
+ * @expectedException RouterException
+ * @return void
+ */
 	public function testSettingNonExistentDefaultRouteException() {
-		$this->expectException(\RouterException::class);
 		Router::defaultRouteClass('NonExistentClass');
 	}
 

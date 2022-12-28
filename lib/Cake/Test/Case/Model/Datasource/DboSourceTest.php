@@ -179,18 +179,12 @@ class DboSourceTest extends CakeTestCase {
 		'core.sample', 'core.tag', 'core.user', 'core.post', 'core.author', 'core.data_test'
 	);
 
-	/**
-	 * @var DboSource
-	 */
-	public $db;
-
 /**
- *
  * setUp method
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 
 		$this->testDb = new DboTestSource();
@@ -206,7 +200,7 @@ class DboSourceTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		unset($this->Model);
 	}
@@ -685,10 +679,10 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
-	 * @return void
-	 */
+ * @expectedException PDOException
+ * @return void
+ */
 	public function testDirectCallThrowsException() {
-		$this->expectException(\PDOException::class);
 		$this->db->query('directCall', array(), $this->Model);
 	}
 
@@ -961,15 +955,15 @@ class DboSourceTest extends CakeTestCase {
 		$this->testDb->showLog();
 		$contents = ob_get_clean();
 
-		$this->assertMatchesRegularExpression('/Query 1/s', $contents);
-		$this->assertMatchesRegularExpression('/Query 2/s', $contents);
+		$this->assertRegExp('/Query 1/s', $contents);
+		$this->assertRegExp('/Query 2/s', $contents);
 
 		ob_start();
 		$this->testDb->showLog(true);
 		$contents = ob_get_clean();
 
-		$this->assertMatchesRegularExpression('/Query 1/s', $contents);
-		$this->assertMatchesRegularExpression('/Query 2/s', $contents);
+		$this->assertRegExp('/Query 1/s', $contents);
+		$this->assertRegExp('/Query 2/s', $contents);
 
 		Configure::write('debug', $oldDebug);
 	}
@@ -1254,10 +1248,10 @@ class DboSourceTest extends CakeTestCase {
 		);
 
 		$result = $this->db->generateAssociationQuery($Article, null, null, null, null, $queryData, false);
-		$this->assertStringContainsString('SELECT', $result);
-		$this->assertStringContainsString('FROM', $result);
-		$this->assertStringContainsString('WHERE', $result);
-		$this->assertStringContainsString('ORDER', $result);
+		$this->assertContains('SELECT', $result);
+		$this->assertContains('FROM', $result);
+		$this->assertContains('WHERE', $result);
+		$this->assertContains('ORDER', $result);
 	}
 
 /**
@@ -1418,10 +1412,10 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
-	 * Test nested transaction calls
-	 *
-	 * @return void
-	 */
+ * Test nested transaction calls
+ *
+ * @return void
+ */
 	public function testTransactionNested() {
 		$conn = $this->getMock('MockPDO');
 		$db = new DboTestSource();
@@ -1440,10 +1434,10 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
-	 * Test nested transaction calls without support
-	 *
-	 * @return void
-	 */
+ * Test nested transaction calls without support
+ *
+ * @return void
+ */
 	public function testTransactionNestedWithoutSupport() {
 		$conn = $this->getMock('MockPDO');
 		$db = new DboTestSource();
@@ -1459,10 +1453,10 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
-	 * Test nested transaction disabled
-	 *
-	 * @return void
-	 */
+ * Test nested transaction disabled
+ *
+ * @return void
+ */
 	public function testTransactionNestedDisabled() {
 		$conn = $this->getMock('MockPDO');
 		$db = new DboTestSource();
@@ -1789,7 +1783,7 @@ class DboSourceTest extends CakeTestCase {
 
 		$result = $db->limit(10, 300000000000000000000000000000);
 		$scientificNotation = sprintf('%.1E', 300000000000000000000000000000);
-		$this->assertStringNotContainsString($scientificNotation, $result);
+		$this->assertNotContains($scientificNotation, $result);
 	}
 
 /**
@@ -2031,10 +2025,10 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
-	 * Test that afterFind is called correctly for 'joins'
-	 *
-	 * @return void
-	 */
+ * Test that afterFind is called correctly for 'joins'
+ *
+ * @return void
+ */
 	public function testJoinsAfterFind() {
 		$this->loadFixtures('Article', 'User');
 
@@ -2090,10 +2084,10 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
-	 * Test that afterFind is called correctly for 'hasOne' association.
-	 *
-	 * @return void
-	 */
+ * Test that afterFind is called correctly for 'hasOne' association.
+ *
+ * @return void
+ */
 	public function testHasOneAfterFind() {
 		$this->loadFixtures('Article', 'User', 'Comment');
 
@@ -2154,10 +2148,10 @@ class DboSourceTest extends CakeTestCase {
 		$this->db->query('SELECT 1');
 		$this->db->query('SELECT 1');
 		$this->db->query('SELECT 2');
-		self::assertCount(2, $this->db->getAllCachedQueries());
+		$this->assertAttributeCount(2, '_queryCache', $this->db);
 
 		$this->db->flushQueryCache();
-		self::assertCount(0, $this->db->getAllCachedQueries());
+		$this->assertAttributeCount(0, '_queryCache', $this->db);
 	}
 
 /**
@@ -2199,8 +2193,8 @@ class DboSourceTest extends CakeTestCase {
 	}
 
 /**
-	 * Test find with locking hint
-	 */
+ * Test find with locking hint
+ */
 	public function testFindWithLockingHint() {
 		$db = $this->getMock('DboTestSource', array('connect', '_execute', 'execute', 'describ'));
 

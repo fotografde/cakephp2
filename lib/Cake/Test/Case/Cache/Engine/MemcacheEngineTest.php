@@ -48,17 +48,13 @@ class TestMemcacheEngine extends MemcacheEngine {
  * @package       Cake.Test.Case.Cache.Engine
  */
 class MemcacheEngineTest extends CakeTestCase {
-	/**
-	 * @var array|int[]|mixed
-	 */
-	private $_cacheDisable;
 
-	/**
+/**
  * setUp method
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		$this->skipIf(!class_exists('Memcache'), 'Memcache is not installed or configured properly.');
 
@@ -76,7 +72,7 @@ class MemcacheEngineTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		Configure::write('Cache.disable', $this->_cacheDisable);
 		Cache::drop('memcache');
@@ -117,7 +113,7 @@ class MemcacheEngineTest extends CakeTestCase {
 		$Memcache = new Memcache();
 
 		foreach ($servers as $server) {
-			[$host, $port] = explode(':', $server);
+			list($host, $port) = explode(':', $server);
 			//@codingStandardsIgnoreStart
 			if (!@$Memcache->connect($host, $port)) {
 				$available = false;
@@ -382,10 +378,6 @@ class MemcacheEngineTest extends CakeTestCase {
 		$this->assertEquals('cache1', Cache::read('some_value', 'memcache'));
 
 		Cache::write('some_value', 'cache2', 'memcache2');
-
-		// Wait until the written key can be retrieved with Memcache::getExtendedStats(), as there may be a delay.
-		sleep(1);
-
 		$result = Cache::clear(false, 'memcache');
 		$this->assertTrue($result);
 		$this->assertFalse(Cache::read('some_value', 'memcache'));
@@ -409,10 +401,10 @@ class MemcacheEngineTest extends CakeTestCase {
 	}
 
 /**
-	 * test that durations greater than 30 days never expire
-	 *
-	 * @return void
-	 */
+ * test that durations greater than 30 days never expire
+ *
+ * @return void
+ */
 	public function testLongDurationEqualToZero() {
 		$memcache = new TestMemcacheEngine();
 		$memcache->settings['compress'] = false;

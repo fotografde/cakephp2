@@ -37,7 +37,7 @@ class CakeTimeTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		$this->Time = new CakeTime();
 		$this->_systemTimezoneIdentifier = date_default_timezone_get();
@@ -49,7 +49,7 @@ class CakeTimeTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		unset($this->Time);
 		$this->_restoreSystemTimezone();
@@ -285,13 +285,13 @@ class CakeTimeTest extends CakeTestCase {
 			strtotime('+2 weeks +2 days'),
 			'Y-m-d'
 		);
-		$this->assertMatchesRegularExpression('/^in 2 weeks, [1|2] day(s)?$/', $result);
+		$this->assertRegExp('/^in 2 weeks, [1|2] day(s)?$/', $result);
 
 		$result = $this->Time->timeAgoInWords(
 			strtotime('+2 weeks +2 days'),
 			'%x'
 		);
-		$this->assertMatchesRegularExpression('/^in 2 weeks, [1|2] day(s)?$/', $result);
+		$this->assertRegExp('/^in 2 weeks, [1|2] day(s)?$/', $result);
 
 		$result = $this->Time->timeAgoInWords(
 			strtotime('+2 months +2 days'),

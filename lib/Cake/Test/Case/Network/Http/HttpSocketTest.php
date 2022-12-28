@@ -188,7 +188,7 @@ class HttpSocketTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		$this->Socket = $this->getMock('TestHttpSocket', array('read', 'write', 'connect'));
 		$this->RequestSocket = $this->getMock('TestHttpSocket', array('read', 'write', 'connect', 'request'));
@@ -199,7 +199,7 @@ class HttpSocketTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		unset($this->Socket, $this->RequestSocket);
 	}
@@ -594,7 +594,7 @@ class HttpSocketTest extends CakeTestCase {
 			'method' => 'GET'
 		);
 		$this->Socket->request($request);
-		$this->assertStringContainsString('Host: cakephp.org:8080', $this->Socket->request['header']);
+		$this->assertContains('Host: cakephp.org:8080', $this->Socket->request['header']);
 	}
 
 /**
@@ -618,16 +618,16 @@ class HttpSocketTest extends CakeTestCase {
 			'method' => 'GET'
 		);
 		$this->Socket->request($request);
-		$this->assertStringContainsString("GET /index.php?somestring HTTP/1.1", $this->Socket->request['line']);
+		$this->assertContains("GET /index.php?somestring HTTP/1.1", $this->Socket->request['line']);
 	}
 
 /**
-	 * The "*" asterisk character is only allowed for the following methods: OPTIONS.
-	 *
-	 * @return void
-	 */
+ * The "*" asterisk character is only allowed for the following methods: OPTIONS.
+ *
+ * @expectedException SocketException
+ * @return void
+ */
 	public function testRequestNotAllowedUri() {
-		$this->expectException(\SocketException::class);
 		$this->Socket->reset();
 		$request = array('uri' => '*', 'method' => 'GET');
 		$this->Socket->request($request);
@@ -683,10 +683,10 @@ class HttpSocketTest extends CakeTestCase {
 	}
 
 /**
-	 * testRequestWithConstructor method
-	 *
-	 * @return void
-	 */
+ * testRequestWithConstructor method
+ *
+ * @return void
+ */
 	public function testRequestWithConstructor() {
 		$request = array(
 			'request' => array(
@@ -1029,10 +1029,10 @@ class HttpSocketTest extends CakeTestCase {
 	}
 
 /**
-	 * testGet method
-	 *
-	 * @return void
-	 */
+ * testGet method
+ *
+ * @return void
+ */
 	public function testGet() {
 		$this->RequestSocket->reset();
 
@@ -1078,10 +1078,10 @@ class HttpSocketTest extends CakeTestCase {
 	}
 
 /**
-	 * Test the head method
-	 *
-	 * @return void
-	 */
+ * Test the head method
+ *
+ * @return void
+ */
 	public function testHead() {
 		$this->RequestSocket->reset();
 		$this->RequestSocket->expects($this->at(0))
@@ -1200,10 +1200,10 @@ class HttpSocketTest extends CakeTestCase {
 	}
 
 /**
-	 * testPostPutDelete method
-	 *
-	 * @return void
-	 */
+ * testPostPutDelete method
+ *
+ * @return void
+ */
 	public function testPost() {
 		$this->RequestSocket->reset();
 		$this->RequestSocket->expects($this->at(0))
@@ -1224,10 +1224,10 @@ class HttpSocketTest extends CakeTestCase {
 	}
 
 /**
-	 * testPut
-	 *
-	 * @return void
-	 */
+ * testPut
+ *
+ * @return void
+ */
 	public function testPut() {
 		$this->RequestSocket->reset();
 		$this->RequestSocket->expects($this->at(0))
@@ -1248,10 +1248,10 @@ class HttpSocketTest extends CakeTestCase {
 	}
 
 /**
-	 * testPatch
-	 *
-	 * @return void
-	 */
+ * testPatch
+ *
+ * @return void
+ */
 	public function testPatch() {
 		$this->RequestSocket->reset();
 		$this->RequestSocket->expects($this->at(0))
@@ -1272,10 +1272,10 @@ class HttpSocketTest extends CakeTestCase {
 	}
 
 /**
-	 * testDelete
-	 *
-	 * @return void
-	 */
+ * testDelete
+ *
+ * @return void
+ */
 	public function testDelete() {
 		$this->RequestSocket->reset();
 		$this->RequestSocket->expects($this->at(0))
@@ -1356,22 +1356,22 @@ class HttpSocketTest extends CakeTestCase {
 	}
 
 /**
-	 * testBadBuildRequestLine method
-	 *
-	 * @return void
-	 */
+ * testBadBuildRequestLine method
+ *
+ * @expectedException SocketException
+ * @return void
+ */
 	public function testBadBuildRequestLine() {
-		$this->expectException(\SocketException::class);
 		$this->Socket->buildRequestLine('Foo');
 	}
 
 /**
-	 * testBadBuildRequestLine2 method
-	 *
-	 * @return void
-	 */
+ * testBadBuildRequestLine2 method
+ *
+ * @expectedException SocketException
+ * @return void
+ */
 	public function testBadBuildRequestLine2() {
-		$this->expectException(\SocketException::class);
 		$this->Socket->buildRequestLine("GET * HTTP/1.1\r\n");
 	}
 
@@ -1839,18 +1839,13 @@ class HttpSocketTest extends CakeTestCase {
 	public function testVerifyPeer() {
 		$this->skipIf(!extension_loaded('openssl'), 'OpenSSL is not enabled cannot test SSL.');
 		$socket = new HttpSocket();
-
-		if (!empty($_SERVER["http_proxy"])) {
-			[$ip, $port] = explode(":", $_SERVER["http_proxy"]);
-			$socket->configProxy($ip, (int)($port ?? 3128));
-		}
 		try {
 			$socket->get('https://tv.eurosport.com/');
 			$this->markTestSkipped('Found valid certificate, was expecting invalid certificate.');
 		} catch (SocketException $e) {
 			$message = $e->getMessage();
 			$this->skipIf(strpos($message, 'Invalid HTTP') !== false, 'Invalid HTTP Response received, skipping.');
-			$this->assertStringContainsString('certificate verify failed', $message);
+			$this->assertContains('Failed to enable crypto', $message);
 		}
 	}
 

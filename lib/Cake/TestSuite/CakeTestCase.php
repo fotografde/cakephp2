@@ -16,8 +16,6 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-use PHPUnit\Framework\TestResult;
-
 App::uses('CakeFixtureManager', 'TestSuite/Fixture');
 App::uses('CakeTestFixture', 'TestSuite/Fixture');
 
@@ -27,11 +25,6 @@ App::uses('CakeTestFixture', 'TestSuite/Fixture');
  * @package       Cake.TestSuite
  */
 abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
-
-/**
- * @var null|DataSource
- */
-	public $db = null;
 
 /**
  * The class responsible for managing the creation, loading and removing of fixtures
@@ -74,6 +67,52 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 	protected $_pathRestore = array();
 
 /**
+ * Runs the test case and collects the results in a TestResult object.
+ * If no TestResult object is passed a new one will be created.
+ * This method is run for each test method in this class
+ *
+ * @param PHPUnit_Framework_TestResult $result The test result object
+ * @return PHPUnit_Framework_TestResult
+ * @throws InvalidArgumentException
+ */
+	public function run(PHPUnit_Framework_TestResult $result = null) {
+		$level = ob_get_level();
+
+		if (!empty($this->fixtureManager)) {
+			$this->fixtureManager->load($this);
+		}
+		$result = parent::run($result);
+		if (!empty($this->fixtureManager)) {
+			$this->fixtureManager->unload($this);
+			unset($this->fixtureManager, $this->db);
+		}
+
+		for ($i = ob_get_level(); $i < $level; ++$i) {
+			ob_start();
+		}
+
+		return $result;
+	}
+
+/**
+ * Called when a test case method is about to start (to be overridden when needed.)
+ *
+ * @param string $method Test method about to get executed.
+ * @return void
+ */
+	public function startTest($method) {
+	}
+
+/**
+ * Called when a test case method has been executed (to be overridden when needed.)
+ *
+ * @param string $method Test method about that was executed.
+ * @return void
+ */
+	public function endTest($method) {
+	}
+
+/**
  * Overrides SimpleTestCase::skipIf to provide a boolean return value
  *
  * @param bool $shouldSkip Whether or not the test should be skipped.
@@ -82,7 +121,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
  */
 	public function skipIf($shouldSkip, $message = '') {
 		if ($shouldSkip) {
-			self::markTestSkipped($message);
+			$this->markTestSkipped($message);
 		}
 		return $shouldSkip;
 	}
@@ -94,14 +133,8 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
-
-		if (!empty($this->fixtures)) {
-			$this->fixtureManager = $this->fixtureManager ?? CakeFixtureManager::getInstance();
-			$this->fixtureManager->fixturize($this);
-			$this->fixtureManager->load($this);
-		}
 
 		if (empty($this->_configure)) {
 			$this->_configure = Configure::read();
@@ -119,14 +152,8 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
-
-		if (!empty($this->fixtureManager)) {
-			$this->fixtureManager->unload($this);
-			unset($this->fixtureManager, $this->db);
-		}
-
 		App::build($this->_pathRestore, App::RESET);
 		if (class_exists('ClassRegistry', false)) {
 			ClassRegistry::flush();
@@ -141,27 +168,39 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 		unset($this->_configure, $this->_pathRestore);
 	}
 
-	/**
-	 * Sets a static timestamp
-	 *
-	 * @param bool $reset to set new static timestamp.
-	 * @return int timestamp
-	 */
-	public static function time($reset = false) {
-		static $now;
-		if ($reset || !$now) {
-			$now = time();
-		}
-		return $now;
-	}
-
 /**
+ * See CakeTestSuiteDispatcher::date()
+ *
  * @param string $format format to be used.
  * @return string
  */
 	public static function date($format = 'Y-m-d H:i:s') {
-		return date($format, static::time());
+		return CakeTestSuiteDispatcher::date($format);
 	}
+
+// @codingStandardsIgnoreStart PHPUnit overrides don't match CakePHP
+
+/**
+ * Announces the start of a test.
+ *
+ * @return void
+ */
+	protected function assertPreConditions(): void {
+		parent::assertPreConditions();
+		$this->startTest($this->getName());
+	}
+
+/**
+ * Announces the end of a test.
+ *
+ * @return void
+ */
+	protected function assertPostConditions(): void {
+		parent::assertPostConditions();
+		$this->endTest($this->getName());
+	}
+
+// @codingStandardsIgnoreEnd
 
 /**
  * Chooses which fixtures to load for a given test
@@ -285,7 +324,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 	public function assertTextContains($needle, $haystack, $message = '', $ignoreCase = false) {
 		$needle = str_replace(array("\r\n", "\r"), "\n", $needle);
 		$haystack = str_replace(array("\r\n", "\r"), "\n", $haystack);
-		return $this->assertStringContainsString($needle, $haystack, $message, $ignoreCase);
+		return $this->assertContains($needle, $haystack, $message, $ignoreCase);
 	}
 
 /**
@@ -301,7 +340,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 	public function assertTextNotContains($needle, $haystack, $message = '', $ignoreCase = false) {
 		$needle = str_replace(array("\r\n", "\r"), "\n", $needle);
 		$haystack = str_replace(array("\r\n", "\r"), "\n", $haystack);
-		return $this->assertStringNotContainsString($needle, $haystack, $message, $ignoreCase);
+		return $this->assertNotContains($needle, $haystack, $message, $ignoreCase);
 	}
 
 /**
@@ -454,7 +493,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 				continue;
 			}
 
-			[$description, $expressions, $itemNum] = $assertion;
+			list($description, $expressions, $itemNum) = $assertion;
 			foreach ((array)$expressions as $expression) {
 				if (preg_match(sprintf('/^%s/s', $expression), $string, $match)) {
 					$matches = true;
@@ -595,6 +634,32 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 	protected function assertNoErrors() {
 	}
 
+/**
+ * Compatibility wrapper function for setExpectedException
+ *
+ * @param mixed $expected the name of the Exception or error
+ * @param string $message the text to display if the assertion is not correct
+ * @deprecated 3.0.0 This is a compatibility wrapper for 1.x. It will be removed in 3.0
+ * @return void
+ */
+	protected function expectError($expected = false, $message = '') {
+		if (!$expected) {
+			$expected = 'Exception';
+		}
+		$this->setExpectedException($expected, $message);
+	}
+
+/**
+ * Compatibility wrapper function for setExpectedException
+ *
+ * @param mixed $name The name of the expected Exception.
+ * @param string $message the text to display if the assertion is not correct
+ * @deprecated 3.0.0 This is a compatibility wrapper for 1.x. It will be removed in 3.0.
+ * @return void
+ */
+	public function expectException($name = 'Exception', $message = '') {
+		$this->setExpectedException($name, $message);
+	}
 
 /**
  * Compatibility wrapper function for assertSame
@@ -675,6 +740,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
  * @param bool $callAutoload The seventh (optional) parameter can be used to
  *   disable __autoload() during the generation of the test double class.
  * @return object
+ * @deprecated Use `getMockBuilder()` or `createMock()` in new unit tests.
  * @see https://phpunit.de/manual/current/en/test-doubles.html
  */
 	protected function _buildMock(
@@ -735,6 +801,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
  * @param string $proxyTarget Not supported.
  * @return object
  * @throws InvalidArgumentException When not supported parameters are set.
+ * @deprecated Use `getMockBuilder()` or `createMock()` in new unit tests.
  * @see https://phpunit.de/manual/current/en/test-doubles.html
  */
 	public function getMock(
@@ -749,6 +816,12 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 		$callOriginalMethods = false,
 		$proxyTarget = null
 	) {
+		$phpUnitVersion = PHPUnit_Runner_Version::id();
+		if (version_compare($phpUnitVersion, '5.7.0', '<')) {
+			return parent::getMock($originalClassName, $methods, $arguments,
+					$mockClassName, $callOriginalConstructor, $callOriginalClone,
+					$callAutoload, $cloneArguments, $callOriginalMethods, $proxyTarget);
+		}
 		if ($cloneArguments) {
 			throw new InvalidArgumentException('$cloneArguments parameter is not supported');
 		}
@@ -779,10 +852,10 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
  * @return Model
  */
 	public function getMockForModel($model, $methods = array(), $config = array()) {
-		$defaults = ClassRegistry::config('Model') ?? [];
+		$defaults = ClassRegistry::config('Model');
 		unset($defaults['ds']);
 
-		[$plugin, $name] = pluginSplit($model, true);
+		list($plugin, $name) = pluginSplit($model, true);
 		App::uses($name, $plugin . 'Model');
 
 		$config = array_merge($defaults, (array)$config, array('name' => $name));

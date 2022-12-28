@@ -137,7 +137,7 @@ class JsHelperTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 
 		Configure::write('Asset.timestamp', false);
@@ -161,7 +161,7 @@ class JsHelperTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		unset($this->Js);
 	}
@@ -204,12 +204,12 @@ class JsHelperTest extends CakeTestCase {
 	}
 
 /**
-	 * test that methods dispatch internally and to the engine class
-	 *
-	 * @return void
-	 */
+ * test that methods dispatch internally and to the engine class
+ *
+ * @expectedException PHPUnit_Framework_Error_Warning
+ * @return void
+ */
 	public function testMethodDispatching() {
-		$this->expectException('\PHPUnit\Framework\Error\Warning');
 		$this->_useMock();
 
 		$this->Js->TestJsEngine
@@ -316,10 +316,10 @@ class JsHelperTest extends CakeTestCase {
 	}
 
 /**
-	 * test that writing the buffer with inline = false includes a script tag.
-	 *
-	 * @return void
-	 */
+ * test that writing the buffer with inline = false includes a script tag.
+ *
+ * @return void
+ */
 	public function testWriteBufferNotInline() {
 		$this->Js->set('foo', 1);
 
@@ -331,11 +331,11 @@ class JsHelperTest extends CakeTestCase {
 	}
 
 /**
-	 * test that writeBuffer() sets domReady = false when the request is done by XHR.
-	 * Including a domReady() when in XHR can cause issues as events aren't triggered by some libraries
-	 *
-	 * @return void
-	 */
+ * test that writeBuffer() sets domReady = false when the request is done by XHR.
+ * Including a domReady() when in XHR can cause issues as events aren't triggered by some libraries
+ *
+ * @return void
+ */
 	public function testWriteBufferAndXhr() {
 		$this->_useMock();
 		$requestWith = null;
@@ -375,7 +375,7 @@ class JsHelperTest extends CakeTestCase {
 		preg_match('/src="(.*\.js)"/', $result, $filename);
 		$this->assertTrue(file_exists(WWW_ROOT . $filename[1]));
 		$contents = file_get_contents(WWW_ROOT . $filename[1]);
-		$this->assertMatchesRegularExpression('/one\s=\s1;\ntwo\s=\s2;/', $contents);
+		$this->assertRegExp('/one\s=\s1;\ntwo\s=\s2;/', $contents);
 		if (file_exists(WWW_ROOT . $filename[1])) {
 			unlink(WWW_ROOT . $filename[1]);
 		}
@@ -384,7 +384,7 @@ class JsHelperTest extends CakeTestCase {
 		$this->Js->buffer('one = 1;');
 		$this->Js->buffer('two = 2;');
 		$result = $this->Js->writeBuffer(array('onDomReady' => false, 'cache' => true));
-		$this->assertMatchesRegularExpression('/one\s=\s1;\ntwo\s=\s2;/', $result);
+		$this->assertRegExp('/one\s=\s1;\ntwo\s=\s2;/', $result);
 		$this->assertFalse(file_exists(WWW_ROOT . $filename[1]));
 	}
 
@@ -749,7 +749,7 @@ class JsBaseEngineTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		$controller = null;
 		$this->View = $this->getMock('View', array('append'), array(&$controller));
@@ -761,7 +761,7 @@ class JsBaseEngineTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		unset($this->JsEngine);
 	}
@@ -902,10 +902,10 @@ class JsBaseEngineTest extends CakeTestCase {
 
 		$object = array('title' => 'New thing', 'indexes' => array(5, 6, 7, 8), 'object' => array('inner' => array('value' => 1)));
 		$result = $this->JsEngine->object($object, array('prefix' => 'PREFIX', 'postfix' => 'POSTFIX'));
-		$this->assertMatchesRegularExpression('/^PREFIX/', $result);
-		$this->assertMatchesRegularExpression('/POSTFIX$/', $result);
-		$this->assertDoesNotMatchRegularExpression('/.PREFIX./', $result);
-		$this->assertDoesNotMatchRegularExpression('/.POSTFIX./', $result);
+		$this->assertRegExp('/^PREFIX/', $result);
+		$this->assertRegExp('/POSTFIX$/', $result);
+		$this->assertNotRegExp('/.PREFIX./', $result);
+		$this->assertNotRegExp('/.POSTFIX./', $result);
 	}
 
 /**

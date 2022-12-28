@@ -74,7 +74,6 @@ abstract class BaseModelTest extends CakeTestCase {
 		'core.uuidnativeitem', 'core.uuidnativeportfolio', 'core.uuidnativeitems_uuidnativeportfolio',
 		'core.uuidnativeitems_uuidnativeportfolio_numericid',
 		'core.translated_article', 'core.translate_article',
-		'core.ad', 'core.campaign',
 	);
 
 /**
@@ -82,7 +81,7 @@ abstract class BaseModelTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		$this->debug = Configure::read('debug');
 	}
@@ -92,7 +91,7 @@ abstract class BaseModelTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		Configure::write('debug', $this->debug);
 		ClassRegistry::flush();

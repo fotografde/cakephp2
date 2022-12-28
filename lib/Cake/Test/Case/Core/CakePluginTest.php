@@ -28,7 +28,7 @@ class CakePluginTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		App::build(array(
 			'Plugin' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
@@ -41,7 +41,7 @@ class CakePluginTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		CakePlugin::unload();
 	}
@@ -167,22 +167,21 @@ class CakePluginTest extends CakeTestCase {
 	}
 
 /**
-	 * Tests that loading a missing routes file throws a warning
-	 *
-	 * @return void
-	 */
+ * Tests that loading a missing routes file throws a warning
+ *
+ * @return void
+ * @expectedException PHPUNIT_FRAMEWORK_ERROR_WARNING
+ */
 	public function testLoadMultipleWithDefaultsMissingFile() {
-		$this->expectException('\PHPUnit\Framework\Error\Warning');
 		CakePlugin::load(array('TestPlugin', 'TestPluginTwo'), array('bootstrap' => true, 'routes' => true));
 		CakePlugin::routes();
 	}
 
 /**
-	 * Test ignoring missing bootstrap/routes file
-	 *
-	 * @return void
-	 * @doesNotPerformAssertions
-	 */
+ * Test ignoring missing bootstrap/routes file
+ *
+ * @return void
+ */
 	public function testIgnoreMissingFiles() {
 		CakePlugin::loadAll(array(array(
 			'bootstrap' => true,
@@ -193,12 +192,12 @@ class CakePluginTest extends CakeTestCase {
 	}
 
 /**
-	 * Tests that CakePlugin::load() throws an exception on unknown plugin
-	 *
-	 * @return void
-	 */
+ * Tests that CakePlugin::load() throws an exception on unknown plugin
+ *
+ * @return void
+ * @expectedException MissingPluginException
+ */
 	public function testLoadNotFound() {
-		$this->expectException(\MissingPluginException::class);
 		CakePlugin::load('MissingPlugin');
 	}
 
@@ -217,12 +216,12 @@ class CakePluginTest extends CakeTestCase {
 	}
 
 /**
-	 * Tests that CakePlugin::path() throws an exception on unknown plugin
-	 *
-	 * @return void
-	 */
+ * Tests that CakePlugin::path() throws an exception on unknown plugin
+ *
+ * @return void
+ * @expectedException MissingPluginException
+ */
 	public function testPathNotFound() {
-		$this->expectException(\MissingPluginException::class);
 		CakePlugin::path('TestPlugin');
 	}
 

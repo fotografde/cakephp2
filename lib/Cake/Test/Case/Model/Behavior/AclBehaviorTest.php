@@ -225,7 +225,7 @@ class AclBehaviorTest extends CakeTestCase {
  *
  * @return void
  */
-	public function testSetup() {
+	public function testsetUp() {
 		parent::setUp();
 		$User = new AclUser();
 		$this->assertTrue(isset($User->Behaviors->Acl->settings['User']));

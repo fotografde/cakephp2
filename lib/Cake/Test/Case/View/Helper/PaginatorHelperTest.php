@@ -38,7 +38,7 @@ class PaginatorHelperTest extends CakeTestCase {
  *
  * @return void
  */
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		Configure::write('Config.language', 'eng');
 		$controller = null;
@@ -76,7 +76,7 @@ class PaginatorHelperTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown(): void {
+	public function tearDown() : void {
 		parent::tearDown();
 		unset($this->View, $this->Paginator);
 	}
@@ -198,37 +198,37 @@ class PaginatorHelperTest extends CakeTestCase {
 		$this->Paginator->request->params['paging']['Article']['options']['order'] = array('Article.title' => 'desc');
 		$this->Paginator->request->params['paging']['Article']['options']['sort'] = null;
 		$result = $this->Paginator->sort('title');
-		$this->assertMatchesRegularExpression('/\/accounts\/index\/param\/sort:title\/direction:asc" class="desc">Title<\/a>$/', $result);
+		$this->assertRegExp('/\/accounts\/index\/param\/sort:title\/direction:asc" class="desc">Title<\/a>$/', $result);
 
 		$this->Paginator->request->params['paging']['Article']['options']['order'] = array('Article.title' => 'asc');
 		$this->Paginator->request->params['paging']['Article']['options']['sort'] = null;
 		$result = $this->Paginator->sort('title');
-		$this->assertMatchesRegularExpression('/\/accounts\/index\/param\/sort:title\/direction:desc" class="asc">Title<\/a>$/', $result);
+		$this->assertRegExp('/\/accounts\/index\/param\/sort:title\/direction:desc" class="asc">Title<\/a>$/', $result);
 
 		$this->Paginator->request->params['paging']['Article']['options']['order'] = array('Article.title' => 'desc');
 		$this->Paginator->request->params['paging']['Article']['options']['sort'] = null;
 		$result = $this->Paginator->sort('title', 'Title', array('direction' => 'desc'));
-		$this->assertMatchesRegularExpression('/\/accounts\/index\/param\/sort:title\/direction:asc" class="desc">Title<\/a>$/', $result);
+		$this->assertRegExp('/\/accounts\/index\/param\/sort:title\/direction:asc" class="desc">Title<\/a>$/', $result);
 
 		$this->Paginator->request->params['paging']['Article']['options']['order'] = array('Article.title' => 'desc');
 		$this->Paginator->request->params['paging']['Article']['options']['sort'] = null;
 		$result = $this->Paginator->sort('title', 'Title', array('direction' => 'ASC'));
-		$this->assertMatchesRegularExpression('/\/accounts\/index\/param\/sort:title\/direction:asc" class="desc">Title<\/a>$/', $result);
+		$this->assertRegExp('/\/accounts\/index\/param\/sort:title\/direction:asc" class="desc">Title<\/a>$/', $result);
 
 		$this->Paginator->request->params['paging']['Article']['options']['order'] = array('Article.title' => 'asc');
 		$this->Paginator->request->params['paging']['Article']['options']['sort'] = null;
 		$result = $this->Paginator->sort('title', 'Title', array('direction' => 'asc'));
-		$this->assertMatchesRegularExpression('/\/accounts\/index\/param\/sort:title\/direction:desc" class="asc">Title<\/a>$/', $result);
+		$this->assertRegExp('/\/accounts\/index\/param\/sort:title\/direction:desc" class="asc">Title<\/a>$/', $result);
 
 		$this->Paginator->request->params['paging']['Article']['options']['order'] = array('Article.title' => 'asc');
 		$this->Paginator->request->params['paging']['Article']['options']['sort'] = null;
 		$result = $this->Paginator->sort('title', 'Title', array('direction' => 'desc'));
-		$this->assertMatchesRegularExpression('/\/accounts\/index\/param\/sort:title\/direction:desc" class="asc">Title<\/a>$/', $result);
+		$this->assertRegExp('/\/accounts\/index\/param\/sort:title\/direction:desc" class="asc">Title<\/a>$/', $result);
 
 		$this->Paginator->request->params['paging']['Article']['options']['order'] = array('Article.title' => 'asc');
 		$this->Paginator->request->params['paging']['Article']['options']['sort'] = null;
 		$result = $this->Paginator->sort('title', 'Title', array('direction' => 'desc', 'class' => 'foo'));
-		$this->assertMatchesRegularExpression('/\/accounts\/index\/param\/sort:title\/direction:desc" class="foo asc">Title<\/a>$/', $result);
+		$this->assertRegExp('/\/accounts\/index\/param\/sort:title\/direction:desc" class="foo asc">Title<\/a>$/', $result);
 	}
 
 /**
@@ -2781,11 +2781,10 @@ class PaginatorHelperTest extends CakeTestCase {
 	}
 
 /**
-	 * Ensure that the internal link class object is called when the update key is present
-	 *
-	 * @return void
-	 * @doesNotPerformAssertions
-	 */
+ * Ensure that the internal link class object is called when the update key is present
+ *
+ * @return void
+ */
 	public function testAjaxLinkGenerationNumbers() {
 		$this->Paginator->Js->expectCallCount('link', 2);
 		$this->Paginator->numbers(array(
@@ -2810,12 +2809,12 @@ class PaginatorHelperTest extends CakeTestCase {
 	}
 
 /**
-	 * test that mock classes injected into paginatorHelper are called when using link()
-	 *
-	 * @return void
-	 */
+ * test that mock classes injected into paginatorHelper are called when using link()
+ *
+ * @expectedException CakeException
+ * @return void
+ */
 	public function testMockAjaxProviderClassInjection() {
-		$this->expectException(\CakeException::class);
 		$mock = $this->getMock('PaginatorHelper', array(), array($this->View), 'PaginatorMockJsHelper');
 		$Paginator = new PaginatorHelper($this->View, array('ajax' => 'PaginatorMockJs'));
 		$Paginator->request->params['paging'] = array(
