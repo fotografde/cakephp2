@@ -254,7 +254,6 @@ class CakeEventManagerTest extends CakeTestCase {
  * @triggers fake.event
  */
 	public function testDispatchFalseStopsEvent() {
-
 		$manager = new CakeEventManager();
 		$listener = $this->getMock('CakeEventTestListener');
 		$anotherListener = $this->getMock('CakeEventTestListener');
