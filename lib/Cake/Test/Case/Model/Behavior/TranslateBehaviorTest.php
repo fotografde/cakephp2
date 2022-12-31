@@ -1392,7 +1392,7 @@ class TranslateBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testExceptionOnNameTranslation() {
-		$this->expectException(\CakeException::class);
+		$this->expectException(CakeException::class);
 		$this->loadFixtures('Translate', 'TranslatedItem');
 		$TestModel = new TranslatedItem();
 		$TestModel->bindTranslation(array('name' => 'name'));

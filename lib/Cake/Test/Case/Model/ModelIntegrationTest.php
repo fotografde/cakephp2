@@ -143,7 +143,7 @@ class ModelIntegrationTest extends BaseModelTest {
 	 * @return void
 	 */
 	public function testMissingTable() {
-		$this->expectException(\MissingTableException::class);
+		$this->expectException(MissingTableException::class);
 		$Article = new ArticleB(false, uniqid());
 		$Article->schema();
 	}

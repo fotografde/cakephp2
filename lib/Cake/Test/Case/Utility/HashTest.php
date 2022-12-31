@@ -251,7 +251,7 @@ class HashTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testGetInvalidPath() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		Hash::get(array('one' => 'two'), new StdClass());
 	}
 
@@ -1903,7 +1903,7 @@ class HashTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testCombineErrorMissingValue() {
-		$this->expectException(\CakeException::class);
+		$this->expectException(CakeException::class);
 		$data = array(
 			array('User' => array('id' => 1, 'name' => 'mark')),
 			array('User' => array('name' => 'jose')),
@@ -1917,7 +1917,7 @@ class HashTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testCombineErrorMissingKey() {
-		$this->expectException(\CakeException::class);
+		$this->expectException(CakeException::class);
 		$data = array(
 			array('User' => array('id' => 1, 'name' => 'mark')),
 			array('User' => array('id' => 2)),
@@ -2588,7 +2588,7 @@ class HashTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testNestInvalid() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$input = array(
 			array(
 				'ParentCategory' => array(

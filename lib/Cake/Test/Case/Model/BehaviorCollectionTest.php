@@ -609,7 +609,7 @@ class BehaviorCollectionTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testInvalidBehaviorCausingCakeError() {
-		$this->expectException(\MissingBehaviorException::class);
+		$this->expectException(MissingBehaviorException::class);
 		$Apple = new Apple();
 		$Apple->Behaviors->load('NoSuchBehavior');
 	}

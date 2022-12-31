@@ -329,7 +329,7 @@ class ClassRegistryTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testInitAbstractClass() {
-		$this->expectException(\CakeException::class);
+		$this->expectException(CakeException::class);
 		ClassRegistry::init('ClassRegistryAbstractModel');
 	}
 
@@ -339,7 +339,7 @@ class ClassRegistryTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testInitInterface() {
-		$this->expectException(\CakeException::class);
+		$this->expectException(CakeException::class);
 		ClassRegistry::init('ClassRegistryInterfaceTest');
 	}
 }

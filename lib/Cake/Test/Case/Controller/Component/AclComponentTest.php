@@ -58,7 +58,7 @@ class AclComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testConstrutorException() {
-		$this->expectException(\CakeException::class);
+		$this->expectException(CakeException::class);
 		Configure::write('Acl.classname', 'AclClassNameThatDoesNotExist');
 		$Collection = new ComponentCollection();
 		new AclComponent($Collection);
@@ -83,7 +83,7 @@ class AclComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testAdapterException() {
-		$this->expectException(\CakeException::class);
+		$this->expectException(CakeException::class);
 		$thing = new StdClass();
 		$this->Acl->adapter($thing);
 	}
