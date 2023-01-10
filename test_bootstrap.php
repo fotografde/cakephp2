@@ -1,16 +1,17 @@
 <?php
 
-exec("bash " . __DIR__ . "/bootstrap_dbsetup.sh");
+exec("bash " . __DIR__ . "/test_bootstrap.sh");
 
 ini_set("memory_limit", "512M");
 
-/**
- * Cake doesn't have a way of configuring the path to the temp directory,
- * so we have to set this constant before it can. We need to change the
- * temp directory to be a folder which is not shared with the host OS,
- * or the permissions-related tests will not pass.
- */
-define("TMP", "/tmp/caketmp");
+
+# Dont use hosts shared folder because of permission test, dont use general /tmp folder because of segmentation fault test
+define("TMP", "/srv/tmp/");
+//define("TMP", __DIR__ . "/app/tmp/");
+
+if (!mkdir($concurrentDirectory = TMP . "cache/views", 0755, true) && !is_dir($concurrentDirectory)) {
+	throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+}
 
 // other constants that need to be in place during a test run
 // which were previously set by the shell bootstrap process

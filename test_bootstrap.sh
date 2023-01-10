@@ -79,3 +79,4 @@ echo "<?php
       }
     }
     }" > app/Config/database.php
+
