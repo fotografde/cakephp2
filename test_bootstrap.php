@@ -1,6 +1,6 @@
 <?php
 
-exec(__DIR__ . "/fixturize_tmp_dir");
+exec("bash " . __DIR__ . "/bootstrap_dbsetup.sh");
 
 ini_set("memory_limit", "512M");
 
@@ -10,7 +10,7 @@ ini_set("memory_limit", "512M");
  * temp directory to be a folder which is not shared with the host OS,
  * or the permissions-related tests will not pass.
  */
-define("TMP", "/home/vagrant/caketmp/");
+define("TMP", "/tmp/caketmp");
 
 // other constants that need to be in place during a test run
 // which were previously set by the shell bootstrap process
