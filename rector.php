@@ -13,7 +13,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 	$parameters->set(Option::AUTOLOAD_PATHS, [
 
 //		// it seems that if we set this option, it doesn't autoload PhpUnit, so we add it back in
-		__DIR__ . "/vendors/autoload.php",
+		__DIR__ . "/vendor/autoload.php",
 
 //		// bootstrap stuff like Cake constants
 		__DIR__ . "/bootstrap_rector.php",

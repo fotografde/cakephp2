@@ -14,11 +14,25 @@ sudo localedef -v -c -i de_DE -f UTF-8 de_DE
 ```
 
 Running tests:
-`vendors/bin/phpunit`
+`vendor/bin/phpunit`
+
+or with docker:
+```
+docker run \
+ -it --rm -v $(pwd):/srv/www \
+ --platform linux/amd64 \
+ registry.gitlab.com/gotphoto/platform/core/app:7.4-apache-bullseye_13-develop \
+ bash
+
+composer update
+
+./vendor/bin/phpunit
+
+```
 
 By default, the tests run with an sqlite database, to run for MySQL, you need to configure a database connection in `app/Config/database.php` and make sure the following empty databases have been created:
 `cakephp_test`, `cakephp_test2`, `cakephp_test3`, and then set the env var `DB` to `mysql`, i.e.:
-`DB=mysql vendors/bin/phpunit`
+`DB=mysql vendor/bin/phpunit`
 
 These numbers are useful to know when upgrading PHPUnit as you can see easily if some tests are being missed or duped!
 

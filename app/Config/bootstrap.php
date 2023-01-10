@@ -110,4 +110,4 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-require_once "vendors/autoload.php";
+require_once "vendor/autoload.php";
