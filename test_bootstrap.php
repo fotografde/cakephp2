@@ -1,7 +1,5 @@
 <?php
 
-exec("bash " . __DIR__ . "/test_bootstrap.sh");
-
 ini_set("memory_limit", "512M");
 
 if (!defined('DS')) {
