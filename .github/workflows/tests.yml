@@ -38,7 +38,7 @@ jobs:
           MYSQL_DATABASE: cakephp
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 --character-set-server=utf8
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       redis:
         image: redis
         ports:
