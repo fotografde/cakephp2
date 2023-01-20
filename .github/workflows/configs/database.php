@@ -1,4 +1,5 @@
 <?php
+
 class DATABASE_CONFIG
 {
 	private $identities = [
@@ -6,6 +7,13 @@ class DATABASE_CONFIG
 			'datasource' => 'Database/Mysql',
 			'host' => '127.0.0.1',
 			'login' => 'root',
+			'password' => 'root',
+		],
+		'mysql57' => [
+			'datasource' => 'Database/Mysql',
+			'host' => '127.0.0.1',
+			'login' => 'root',
+			'password' => 'root',
 		],
 		'pgsql' => [
 			'datasource' => 'Database/Postgres',
@@ -65,18 +73,18 @@ class DATABASE_CONFIG
 	public function __construct()
 	{
 		$db = 'mysql';
-      if (!empty($_SERVER['DB'])) {
-		$db = $_SERVER['DB'];
-      }
-      foreach (['default', 'test', 'test2', 'test_database_three'] as $source) {
-		$config = array_merge($this->{$source}, $this->identities[$db]);
-        if (is_array($config['database'])) {
-			$config['database'] = $config['database'][$source];
-        }
-        if (!empty($config['schema']) && is_array($config['schema'])) {
-			$config['schema'] = $config['schema'][$source];
-        }
-        $this->{$source} = $config;
-      }
-    }
+		if (!empty($_SERVER['DB'])) {
+			$db = $_SERVER['DB'];
+		}
+		foreach (['default', 'test', 'test2', 'test_database_three'] as $source) {
+			$config = array_merge($this->{$source}, $this->identities[$db]);
+			if (is_array($config['database'])) {
+				$config['database'] = $config['database'][$source];
+			}
+			if (!empty($config['schema']) && is_array($config['schema'])) {
+				$config['schema'] = $config['schema'][$source];
+			}
+			$this->{$source} = $config;
+		}
+	}
 }
