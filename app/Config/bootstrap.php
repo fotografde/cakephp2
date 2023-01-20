@@ -109,3 +109,5 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+require_once dirname(__DIR__, 2) . DS . 'vendor/autoload.php';

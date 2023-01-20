@@ -78,9 +78,6 @@ jobs:
             apc.enable_cli=1
           tools: composer
 
-      - name: Enable Autoload
-        run: echo "require_once dirname(__DIR__, 2) . DS . 'vendor/autoload.php';" >> app/Config/bootstrap.php
-
       - name: locale-gen
         run: |
           sudo locale-gen de_DE;
