@@ -57,6 +57,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Copy database.php config
+        run: cp ./.github/workflows/configs/database.php ./app/Config/
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -102,9 +105,6 @@ jobs:
       - name: Wait for MySQL
         if: matrix.db-type == 'mysql' || matrix.db-type == 'mysql57'
         run: while ! `mysqladmin ping -h 127.0.0.1 --silent`; do printf 'Waiting for MySQL...\n'; sleep 2; done;
-
-      - name: Copy database.php config
-        run: cp ./.github/workflows/configs/database.php ./app/Config/
 
       - name: Run PHPUnit
         env:
