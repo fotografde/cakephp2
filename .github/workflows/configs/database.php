@@ -7,11 +7,7 @@ class DATABASE_CONFIG
 			'datasource' => 'Database/Mysql',
 			'host' => '127.0.0.1',
 			'login' => 'root',
-		],
-		'mysql57' => [
-			'datasource' => 'Database/Mysql',
-			'host' => '127.0.0.1',
-			'login' => 'root',
+			'password' => 'root'
 		],
 		'pgsql' => [
 			'datasource' => 'Database/Postgres',

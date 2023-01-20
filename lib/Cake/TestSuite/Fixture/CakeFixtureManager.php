@@ -54,32 +54,6 @@ class CakeFixtureManager {
  */
 	protected $_fixtureMap = array();
 
-	/**
-	 * @var null|CakeFixtureManager
-	 */
-	private static $instance = null;
-
-	public static function initialize(): CakeFixtureManager
-	{
-		if (static::$instance !== null) {
-			throw new \RuntimeException("Already initialized");
-		}
-
-		static::$instance = new static();
-		static::$instance->_initDb();
-
-		return static::$instance;
-	}
-
-	public static function getInstance(): CakeFixtureManager
-	{
-		if (!static::$instance) {
-			throw new \RuntimeException("Not initialized yet");
-		}
-
-		return static::$instance;
-	}
-
 /**
  * Inspects the test to look for unloaded fixtures and loads them
  *
@@ -95,7 +69,7 @@ class CakeFixtureManager {
 			return;
 		}
 		$this->_initDb();
-		$test->db = $test->db ?? $this->_db;
+		$test->db = $this->_db;
 		if (!is_array($test->fixtures)) {
 			$test->fixtures = array_map('trim', explode(',', $test->fixtures));
 		}
