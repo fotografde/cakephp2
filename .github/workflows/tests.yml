@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - '2.x'
+      - 'fix-unittests-php80'
   pull_request:
     branches:
       - '*'
