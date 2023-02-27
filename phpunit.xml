@@ -7,6 +7,7 @@
 		 stderr="true"
 		 stopOnFailure="false"
 		 stopOnWarning="false"
+		 beStrictAboutTestsThatDoNotTestAnything="false"
 	>
 	<testsuites>
 		<testsuite name="CakePHP test suite">

@@ -1,0 +1,11 @@
+services:
+  web:
+    image: beinbm/cake:php74 # enable for php7.4+xdebug
+    #image: beinbm/cake:php80 # enable for php8.0+xdebug
+    #    build: # enable for own builds
+    #      context: ./docker/web
+    #      dockerfile: PHP74.Dockerfile
+#    platform: "linux/amd64"
+    environment:
+      #XDEBUG_SESSION: "core"
+      XDEBUG_CONFIG: "client_host=host.docker.internal" #macos
