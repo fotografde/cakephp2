@@ -24,6 +24,15 @@ DB=mysql ./vendor/bin/phpunit
 DB=sqlite ./vendor/bin/phpunit
 ```
 
+## Docker base images
+
+```
+docker build -t beinbm/cake:php74 - < ./docker/web/PHP74.Dockerfile
+docker push beinbm/cake:php74
+
+docker build -t beinbm/cake:php80 - < ./docker/web/PHP80.Dockerfile
+docker push beinbm/cake:php80
+```
 
 ## Backup
 
