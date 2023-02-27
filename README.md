@@ -3,25 +3,26 @@
 ## THIS IS AN INOFFICIAL FORK / NO SUPPORT!!!
 
 [Original CakePHP 2 documentation](https://book.cakephp.org/2/en/contributing/documentation.html)
-#Running tests
+
+## Running tests
 
 Run the tests in a CentOS VM. You will need the following in addition to our basic PHP set-up.
 
-Running tests:
-`vendor/bin/phpunit`
-
-or with docker:
+Running tests with docker:
 ```
-docker run \
- -it --rm -v $(pwd):/srv/www \
- --platform linux/amd64 \
- registry.gitlab.com/gotphoto/platform/core/app:7.4-apache-bullseye_13-develop \
- bash
+> composer update
+> docker compose up
+> docker compose exec web bash
 
-composer update
-
-./vendor/bin/phpunit
+# within docker container: 
+apt-get update && apt-get install locales
+locale-gen de_DE && locale-gen es_ES
+cp ./.github/workflows/configs/database.php ./app/Config/
+DB=mysql ./vendor/bin/phpunit
 ```
+
+
+## Backup
 
 By default, the tests run with a sqlite database, to run for MySQL, you need to configure a database connection in `app/Config/database.php` and make sure the following empty databases have been created:
 `cakephp_test`, `cakephp_test2`, `cakephp_test3`, and then set the env var `DB` to `mysql`, i.e.:
@@ -39,4 +40,14 @@ MYSQL:
 ```
 OK, but incomplete, skipped, or risky tests!
 Tests: 4028, Assertions: 19551, Skipped: 193.
+```
+
+
+```
+docker run \
+ -it --rm -v $(pwd):/srv/www \
+ --platform linux/amd64 \
+ registry.gitlab.com/gotphoto/platform/core/app:7.4-apache-bullseye_13-develop \
+ bash
+
 ```
