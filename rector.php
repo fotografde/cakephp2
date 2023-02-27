@@ -10,7 +10,6 @@ use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php71\Rector\FuncCall\CountOnNullRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
-//use Rector\PHPOffice\Set\PHPOfficeSetList;
 
 return static function (RectorConfig $rectorConfig): void {
 
@@ -21,7 +20,6 @@ return static function (RectorConfig $rectorConfig): void {
 	]);
 
 	$rectorConfig->parallel(360, 8);
-	$rectorConfig->phpVersion(PhpVersion::PHP_73);
 
 	// DEFINE RULES (Single & Sets)
 	// Rule Overview: https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md
@@ -40,17 +38,11 @@ return static function (RectorConfig $rectorConfig): void {
 		// PHP5x + PHP70,1,2,3
 		LevelSetList::UP_TO_PHP_73,
 
-//		PHPOfficeSetList::PHPEXCEL_TO_PHPSPREADSHEET - done
-
-		// TODO
 //		PHPUnitSetList::PHPUNIT_60,
 //		PHPUnitSetList::PHPUNIT_70,
-		PHPUnitSetList::PHPUNIT_80,
-		PHPUnitSetList::PHPUNIT_90,
-		PHPUnitSetList::PHPUNIT_91,
-
-//		PHPUnitSetList::PHPUNIT_CODE_QUALITY,
-//		PHPUnitSetList::PHPUNIT_EXCEPTION,
+//		PHPUnitSetList::PHPUNIT_80,
+//		PHPUnitSetList::PHPUNIT_90,
+//		PHPUnitSetList::PHPUNIT_91,
 	]);
 
 	// Skip Rules in Folders https://github.com/rectorphp/rector/blob/main/docs/how_to_ignore_rule_or_paths.md

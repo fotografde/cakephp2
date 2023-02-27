@@ -1,6 +1,9 @@
 services:
   web:
-    build: ./docker/web
+#    build: ./docker/web
+    image: php:7.4-apache-bullseye
+#    image: php:8.0-apache-bullseye
+#    image: registry.gitlab.com/gotphoto/platform/core/app:8.0-apache-bullseye_13-develop
     environment:
       PHP_IDE_CONFIG: "serverName=localhost"
     volumes:
@@ -14,7 +17,7 @@ services:
       - memcached
       - redis
   mysql:
-    image: mysql:5.6
+    image: mysql:5.7
     platform: linux/amd64
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     environment:
@@ -28,7 +31,7 @@ services:
 #    ports:
 #      - "3306:3306"
   postgres:
-    image: postgres:9.4
+    image: postgres:11
     platform: linux/amd64
     command: postgres --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=5
     environment:
