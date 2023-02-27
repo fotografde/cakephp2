@@ -18,5 +18,6 @@
 	</listeners>
 	<php>
 		<ini name="memory_limit" value="-1"/>
+		<env name="DB" value="mysql"/>
 	</php>
 </phpunit>
