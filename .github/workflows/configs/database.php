@@ -9,18 +9,6 @@ class DATABASE_CONFIG
 			'login' => 'root',
 			'password' => 'root'
 		],
-		'pgsql' => [
-			'datasource' => 'Database/Postgres',
-			'host' => '127.0.0.1',
-			'login' => 'postgres',
-			'database' => 'cakephp_test',
-			'schema' => [
-				'default' => 'public',
-				'test' => 'public',
-				'test2' => 'test2',
-				'test_database_three' => 'test3',
-			],
-		],
 		'sqlite' => [
 			'datasource' => 'Database/Sqlite',
 			'database' => [

@@ -249,12 +249,6 @@ class DboSourceTest extends CakeTestCase {
  * @return void
  */
 	public function testColumnHyphenOperator() {
-		//PostgreSQL style
-		$result = $this->testDb->conditions(array('Foo.bar->>\'fieldName\'' => 42));
-		$this->assertEquals(' WHERE `Foo`.`bar`->>\'fieldName\' = 42', $result, 'SQL JSON operator failed');
-		$result = $this->testDb->conditions(array('Foo.bar->\'fieldName\'' => 42));
-		$this->assertEquals(' WHERE `Foo`.`bar`->\'fieldName\' = 42', $result, 'SQL JSON operator failed');
-
 		// MYSQL style
 		$result = $this->testDb->conditions(array('Foo.bar->>\'$.fieldName\'' => 42));
 		$this->assertEquals(' WHERE `Foo`.`bar`->>\'$.fieldName\' = 42', $result, 'SQL JSON operator failed');
@@ -1305,9 +1299,6 @@ class DboSourceTest extends CakeTestCase {
  * @return void
  */
 	public function testFieldsCacheKeyWithSchemanameChange() {
-		if ($this->db instanceof Postgres || $this->db instanceof Sqlserver) {
-			$this->markTestSkipped('Cannot run this test with SqlServer or Postgres');
-		}
 		Cache::delete('method_cache', '_cake_core_');
 		DboSource::$methodCache = array();
 		$Article = ClassRegistry::init('Article');

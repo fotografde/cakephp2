@@ -200,12 +200,8 @@ class ModelReadTest extends BaseModelTest {
 				$isOnlyFullGroupBy = true;
 			}
 		}
-		$isStrictGroupBy = $isOnlyFullGroupBy ||
-			$this->db instanceof Postgres ||
-			$this->db instanceof Sqlite ||
-			$this->db instanceof Oracle ||
-			$this->db instanceof Sqlserver;
-		$message = 'Postgres, Oracle, SQLite, SQL Server and MySQL in ONLY_FULL_GROUP_BY ' .
+		$isStrictGroupBy = $isOnlyFullGroupBy || $this->db instanceof Sqlite;
+		$message = 'SQLite and MySQL in ONLY_FULL_GROUP_BY ' .
 			'mode have strict GROUP BY and are incompatible with this test.';
 		$this->skipIf($isStrictGroupBy, $message);
 	}
@@ -213,7 +209,7 @@ class ModelReadTest extends BaseModelTest {
 /**
  * testGroupByAndOrder method
  *
- * This test will never pass with Postgres or Oracle as all fields in a select must be
+ * This test will never pass with SQLite as all fields in a select must be
  * part of an aggregate function or in the GROUP BY statement.
  *
  * @return void
@@ -270,7 +266,7 @@ class ModelReadTest extends BaseModelTest {
 /**
  * testGroupBy method
  *
- * These tests will never pass with Postgres or Oracle as all fields in a select must be
+ * These tests will never pass with SQLite as all fields in a select must be
  * part of an aggregate function or in the GROUP BY statement.
  *
  * @return void
@@ -4322,8 +4318,6 @@ class ModelReadTest extends BaseModelTest {
 		$result = $TestModel->find('all', compact('conditions', 'recursive', 'order'));
 		$this->assertEquals($expected, $result);
 
-		$this->skipIf($this->db instanceof Postgres, 'The rest of testFindAllWithConditionsHavingMixedDataTypes test is not compatible with Postgres.');
-
 		$conditions = array('id' => array('1', 2, '3.0'));
 		$order = 'Article.id ASC';
 		$result = $TestModel->find('all', compact('recursive', 'conditions', 'order'));
@@ -7431,8 +7425,6 @@ class ModelReadTest extends BaseModelTest {
  * @return void
  */
 	public function testFindCountWithDbExpressions() {
-		$this->skipIf($this->db instanceof Postgres, 'testFindCountWithDbExpressions is not compatible with Postgres.');
-
 		$this->loadFixtures('Project', 'Thread');
 		$db = ConnectionManager::getDataSource('test');
 		$TestModel = new Project();

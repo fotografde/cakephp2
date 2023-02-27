@@ -30,7 +30,6 @@ class CakeTestModel extends Model {
 /**
  * Sets default order for the model to avoid failing tests caused by
  * incorrect order when no order has been defined in the finds.
- * Postgres can return the results in any order it considers appropriate if none is specified
  *
  * @param int|string|array $id Set this ID for this model on startup, can also be an array of options, see above.
  * @param string $table Name of database table to use.

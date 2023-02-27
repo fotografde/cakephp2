@@ -105,7 +105,7 @@ class DbConfigTask extends AppShell {
 				}
 			}
 
-			$datasource = $this->in(__d('cake_console', 'Datasource:'), array('Mysql', 'Postgres', 'Sqlite', 'Sqlserver'), 'Mysql');
+			$datasource = $this->in(__d('cake_console', 'Datasource:'), array('Mysql', 'Sqlite'), 'Mysql');
 
 			$persistent = $this->in(__d('cake_console', 'Persistent Connection?'), array('y', 'n'), 'n');
 			if (strtolower($persistent) === 'n') {
@@ -168,14 +168,6 @@ class DbConfigTask extends AppShell {
 			}
 
 			$schema = '';
-			if ($datasource === 'postgres') {
-				while (!$schema) {
-					$schema = $this->in(__d('cake_console', 'Table schema?'), null, 'n');
-				}
-			}
-			if (strtolower($schema) === 'n') {
-				$schema = null;
-			}
 
 			$config = compact('name', 'datasource', 'persistent', 'host', 'login', 'password', 'database', 'prefix', 'encoding', 'port', 'schema');
 

@@ -217,8 +217,8 @@ class ConsoleOptionParserTest extends CakeTestCase {
 			->addOption('connection')
 			->addOption('table', array('short' => 't', 'default' => true));
 
-		$result = $parser->parse(array('--test', 'value', '-t', '--connection', 'postgres'));
-		$expected = array('test' => 'value', 'table' => true, 'connection' => 'postgres', 'help' => false);
+		$result = $parser->parse(array('--test', 'value', '-t', '--connection', 'mysql'));
+		$expected = array('test' => 'value', 'table' => true, 'connection' => 'mysql', 'help' => false);
 		$this->assertEquals($expected, $result[0], 'multiple options did not parse');
 	}
 
