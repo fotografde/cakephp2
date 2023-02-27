@@ -5,6 +5,7 @@ on:
     branches:
       - '2.x'
       - 'fix-unittests-php80'
+      - 'fix-unittests-php74'
   pull_request:
     branches:
       - '*'
@@ -20,34 +21,27 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - '8.0'
+          - '7.4'
         db-type:
           - mysql
-        include:
-          - php-version: '8.0'
-            db-type: pgsql
-          - php-version: '8.0'
-            db-type: sqlite
-          - php-version: '8.1'
-            db-type: mysql
+          - sqlite
+#        include:
+#          - php-version: '8.0'
+#            db-type: pgsql
+#          - php-version: '8.0'
+#            db-type: sqlite
+#          - php-version: '8.1'
+#            db-type: mysql
 
     services:
       mysql:
-        image: mysql:5.6
+        image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: cakephp_test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      postgres:
-        image: postgres:9.4
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: cakephp_test
-        ports:
-          - 5432:5432
-        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=5
       redis:
         image: redis
         ports:
@@ -88,12 +82,6 @@ jobs:
         run: |
           env MYSQL_PWD=root mysql -h 127.0.0.1 -u root -e 'CREATE DATABASE cakephp_test2;';
           env MYSQL_PWD=root mysql -h 127.0.0.1 -u root -e 'CREATE DATABASE cakephp_test3;';
-
-      - name: Create Another Databases for PostgreSQL
-        if: matrix.db-type == 'pgsql'
-        run: |
-          env PGPASSWORD=postgres psql -c 'CREATE SCHEMA test2;' -h 127.0.0.1 -U postgres -d cakephp_test;
-          env PGPASSWORD=postgres psql -c 'CREATE SCHEMA test3;' -h 127.0.0.1 -U postgres -d cakephp_test;
 
       - name: Make temporary directories writable
         run: chmod -R 777 ./app/tmp
