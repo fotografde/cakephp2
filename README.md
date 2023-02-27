@@ -10,11 +10,11 @@ Run the tests in a CentOS VM. You will need the following in addition to our bas
 
 Running tests with docker:
 ```
-> composer update
 > docker compose up
 > docker compose exec web bash
 
 # within docker container: 
+composer update
 cp ./.github/workflows/configs/database.php ./app/Config/
 
 # run tests with mysql

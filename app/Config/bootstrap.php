@@ -45,7 +45,7 @@ Cache::config('default', array('engine' => 'File'));
  *     'Console/Command/Task'      => array('/path/to/tasks/', '/next/path/to/tasks/'),
  *     'Lib'                       => array('/path/to/libs/', '/next/path/to/libs/'),
  *     'Locale'                    => array('/path/to/locales/', '/next/path/to/locales/'),
- *     'Vendor'                    => array('/path/to/vendors/', '/next/path/to/vendors/'),
+ *     'Vendor'                    => array('/path/to/vendor/', '/next/path/to/vendor/'),
  *     'Plugin'                    => array('/path/to/plugins/', '/next/path/to/plugins/'),
  * ));
  */
