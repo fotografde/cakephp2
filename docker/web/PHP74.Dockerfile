@@ -1,13 +1,12 @@
-FROM php:8.0-apache
+FROM php:7.4-apache
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get install -y libzip-dev unzip openssl libmcrypt-dev libmemcached-dev locales \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo_mysql zip \
-    && pecl install apcu redis memcached mcrypt xdebug \
+    && pecl install apcu redis memcached mcrypt \
     && docker-php-ext-enable redis memcached mcrypt \
-    && docker-php-ext-enable xdebug \
     && echo "extension=apcu.so" >> /usr/local/etc/php/php.ini \
     && echo "apc.enable_cli = 1" >> /usr/local/etc/php/php.ini
 

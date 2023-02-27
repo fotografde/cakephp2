@@ -15,10 +15,13 @@ Running tests with docker:
 > docker compose exec web bash
 
 # within docker container: 
-apt-get update && apt-get install locales
-locale-gen de_DE && locale-gen es_ES
 cp ./.github/workflows/configs/database.php ./app/Config/
+
+# run tests with mysql
 DB=mysql ./vendor/bin/phpunit
+
+# run tests with sqlite
+DB=sqlite ./vendor/bin/phpunit
 ```
 
 
@@ -49,5 +52,4 @@ docker run \
  --platform linux/amd64 \
  registry.gitlab.com/gotphoto/platform/core/app:7.4-apache-bullseye_13-develop \
  bash
-
 ```
