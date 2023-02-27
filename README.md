@@ -1,17 +1,11 @@
 # CakePHP
 
-## THIS IS A FORK / NO SUPPORT!!!
+## THIS IS AN INOFFICIAL FORK / NO SUPPORT!!!
 
 [Original CakePHP 2 documentation](https://book.cakephp.org/2/en/contributing/documentation.html)
 #Running tests
 
 Run the tests in a CentOS VM. You will need the following in addition to our basic PHP set-up.
-
-```
-sudo yum -y install glibc-locale-source glibc-langpack-en
-sudo localedef -v -c -i es_ES -f UTF-8 es_ES
-sudo localedef -v -c -i de_DE -f UTF-8 de_DE
-```
 
 Running tests:
 `vendor/bin/phpunit`
@@ -27,10 +21,9 @@ docker run \
 composer update
 
 ./vendor/bin/phpunit
-
 ```
 
-By default, the tests run with an sqlite database, to run for MySQL, you need to configure a database connection in `app/Config/database.php` and make sure the following empty databases have been created:
+By default, the tests run with a sqlite database, to run for MySQL, you need to configure a database connection in `app/Config/database.php` and make sure the following empty databases have been created:
 `cakephp_test`, `cakephp_test2`, `cakephp_test3`, and then set the env var `DB` to `mysql`, i.e.:
 `DB=mysql vendor/bin/phpunit`
 
