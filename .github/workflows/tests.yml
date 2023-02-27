@@ -25,13 +25,7 @@ jobs:
         db-type:
           - mysql
           - sqlite
-#        include:
-#          - php-version: '8.0'
-#            db-type: pgsql
-#          - php-version: '8.0'
-#            db-type: sqlite
-#          - php-version: '8.1'
-#            db-type: mysql
+          - pgsql
 
     services:
       mysql:
@@ -42,6 +36,14 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      postgres:
+        image: postgres:9.4
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cakephp_test
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=5
       redis:
         image: redis
         ports:
