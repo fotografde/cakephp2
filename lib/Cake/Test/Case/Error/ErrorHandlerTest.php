@@ -169,8 +169,8 @@ class ErrorHandlerTest extends CakeTestCase {
 	public function testHandleErrorDebugOff() {
 		Configure::write('debug', 0);
 		Configure::write('Error.trace', false);
-		if (file_exists(LOGS . 'error.log')) {
-			unlink(LOGS . 'error.log');
+		if (file_exists(LOGS . 'debug.log')) {
+			unlink(LOGS . 'debug.log');
 		}
 
 		set_error_handler('ErrorHandler::handleError');
@@ -178,10 +178,10 @@ class ErrorHandlerTest extends CakeTestCase {
 
 		$out .= '';
 
-		$result = file(LOGS . 'error.log');
+		$result = file(LOGS . 'debug.log');
 		$this->assertEquals(1, count($result));
 		$this->assertMatchesRegularExpression(
-			'/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} Warning: Warning \(2\): Undefined variable\s+\$out in \[.+ line \d+\]$/',
+			'/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} Notice: Notice \(8\): Undefined variable: out in \[.+ line \d+\]$/',
 			$result[0]
 		);
 		if (file_exists(LOGS . 'debug.log')) {
