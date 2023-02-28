@@ -113,8 +113,17 @@ class DataSourceTest extends CakeTestCase {
 			'TestSource',
 			array('create', 'read', 'update', 'delete')
 		);
+
+		// the subsequent call to ConnectionManager::create()
+		// results in a call to new {classname}
+		// so we need to tell the autoloader where it can find TestSource
+		App::build([
+			"Model/Datasource" => __DIR__,
+		]);
+		App::uses("TestSource", "Model/Datasource");
+
 		ConnectionManager::create($this->sourceName, array(
-			'datasource' => get_class($this->Source),
+			'datasource' => 'TestSource',
 			'apiKey' => '1234abcd',
 		));
 		$this->Model = $this->getMock(
