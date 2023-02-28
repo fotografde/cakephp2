@@ -109,8 +109,8 @@ class ErrorHandlerTest extends CakeTestCase {
 		$result = ob_get_clean();
 
 		$this->assertMatchesRegularExpression('/<pre class="cake-error">/', $result);
-		$this->assertMatchesRegularExpression('/<b>Warning<\/b>/', $result);
-		$this->assertMatchesRegularExpression('/variable\s+\$wrong/', $result);
+		$this->assertMatchesRegularExpression('/<b>Notice<\/b>/', $result);
+		$this->assertMatchesRegularExpression('/variable: wrong/', $result);
 	}
 
 /**
