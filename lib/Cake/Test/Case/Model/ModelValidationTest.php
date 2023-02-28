@@ -2230,13 +2230,9 @@ class ModelValidationTest extends BaseModelTest {
  * @throws \PHPUnit\Framework\Error
  */
 	public function testValidatorTypehintException() {
-		$this->expectException(\PHPUnit\Framework\Error::class);
-		try {
-			new ModelValidator('asdasds');
-			$this->fail('No exeption raised');
-		} catch (TypeError $e) {
-			throw new \PHPUnit\Framework\Error('Raised an error', 100);
-		}
+		$this->expectException(\TypeError::class);
+		new ModelValidator('asdasds');
+		$this->fail('No exeption raised');
 	}
 
 /**
