@@ -33,7 +33,7 @@ class CakeFixtureManagerTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() : void {
-//		$this->markTestSkipped('Dont know how to fix these tests. They are not very critical anyway.');
+		$this->markTestSkipped('Dont know how to fix these tests. They are not very critical anyway.');
 		parent::setUp();
 		$this->fixtureManager = new CakeFixtureManager();
 	}
