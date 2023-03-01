@@ -98,6 +98,7 @@ class CakeFixtureManagerTest extends CakeTestCase {
 
 		$dboMethods = array_diff(get_class_methods('DboSource'), array('enabled'));
 		$dboMethods[] = 'connect';
+		$dboMethods = array_unique($dboMethods);
 		$db = $this->getMock('DboSource', $dboMethods);
 		$db->config['prefix'] = '';
 
