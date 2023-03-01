@@ -412,13 +412,13 @@ class Shell extends CakeObject {
  * If a shell implements a `main()` method, all missing method calls will be sent to
  * `main()` with the original method name in the argv.
  *
- * @param string $command The command name to run on this shell. If this argument is empty,
+ * @param string|null $command The command name to run on this shell. If this argument is empty,
  *   and the shell has a `main()` method, that will be called instead.
  * @param array $argv Array of arguments to run the shell with. This array should be missing the shell name.
  * @return int|bool
  * @link https://book.cakephp.org/2.0/en/console-and-shells.html#Shell::runCommand
  */
-	public function runCommand(string $command, $argv) {
+	public function runCommand($command, $argv) {
 		$isTask = $this->hasTask($command);
 		$isMethod = $this->hasMethod($command);
 		$isMain = $this->hasMethod('main');

@@ -413,7 +413,7 @@ class MemcacheEngineTest extends CakeTestCase {
 		$memcache = new TestMemcacheEngine();
 		$memcache->settings['compress'] = false;
 
-		$mock = $this->getMock('Memcache');
+		$mock = $this->getMock('Memcache', array('set'));
 		$memcache->setMemcache($mock);
 		$mock->expects($this->once())
 			->method('set')

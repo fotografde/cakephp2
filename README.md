@@ -10,11 +10,11 @@ Run the tests in a CentOS VM. You will need the following in addition to our bas
 
 Running tests with docker:
 ```
-> composer update
 > docker compose up
 > docker compose exec web bash
 
 # within docker container: 
+composer update
 cp ./.github/workflows/configs/database.php ./app/Config/
 
 # run tests with mysql
@@ -24,6 +24,15 @@ DB=mysql ./vendor/bin/phpunit
 DB=sqlite ./vendor/bin/phpunit
 ```
 
+## Docker base images
+
+```
+docker build -t beinbm/cake:php74 - < ./docker/web/PHP74.Dockerfile
+docker push beinbm/cake:php74
+
+docker build -t beinbm/cake:php80 - < ./docker/web/PHP80.Dockerfile
+docker push beinbm/cake:php80
+```
 
 ## Backup
 
