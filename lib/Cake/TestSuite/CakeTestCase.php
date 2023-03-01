@@ -140,6 +140,20 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 		unset($this->_configure, $this->_pathRestore);
 	}
 
+    /**
+     * Sets a static timestamp
+     *
+     * @param bool $reset to set new static timestamp.
+     * @return int timestamp
+     */
+    public static function time($reset = false) {
+        static $now;
+        if ($reset || !$now) {
+            $now = time();
+        }
+        return $now;
+    }
+
 /**
  * See CakeTestSuiteDispatcher::date()
  *

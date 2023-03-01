@@ -54,12 +54,38 @@ class CakeFixtureManager {
  */
 	protected $_fixtureMap = array();
 
-/**
- * Inspects the test to look for unloaded fixtures and loads them
- *
- * @param CakeTestCase $test the test case to inspect
- * @return void
- */
+    /**
+     * @var null|CakeFixtureManager
+     */
+    private static $instance = null;
+
+    public static function initialize(): CakeFixtureManager
+    {
+        if (static::$instance !== null) {
+            throw new \RuntimeException("Already initialized");
+        }
+
+        static::$instance = new static();
+        static::$instance->_initDb();
+
+        return static::$instance;
+    }
+
+    public static function getInstance(): CakeFixtureManager
+    {
+        if (!static::$instance) {
+            throw new \RuntimeException("Not initialized yet");
+        }
+
+        return static::$instance;
+    }
+
+    /**
+     * Inspects the test to look for unloaded fixtures and loads them
+     *
+     * @param CakeTestCase $test the test case to inspect
+     * @return void
+     */
 	public function fixturize($test) {
 		if (!$this->_initialized) {
 			ClassRegistry::config(array('ds' => 'test', 'testing' => true));
