@@ -1,14 +1,6 @@
 services:
   web:
-#    build:
-#      context: ./docker/web
-#      dockerfile: PHP74.Dockerfile
-#      dockerfile: PHP80.Dockerfile
-    image: beinbm/cake:php80
-#    image: php:7.4-apache-bullseye
-#    image: php:8.0-apache-bullseye
-#    image: registry.gitlab.com/gotphoto/platform/core/app:7.4-apache-bullseye_06-develop-
-#    image: registry.gitlab.com/gotphoto/platform/core/app:8.0-apache-bullseye_13-develop
+    image: beinbm/cake:php80 # override in override file
     environment:
       PHP_IDE_CONFIG: "serverName=localhost"
     volumes:
