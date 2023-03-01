@@ -2887,13 +2887,9 @@ SQL;
  * @throws \PHPUnit\Framework\Error
  */
 	public function testDropSchemaNoSchema() {
-		$this->expectException(\PHPUnit\Framework\Error::class);
-		try {
-			$this->Dbo->dropSchema(null);
-			$this->fail('No exception');
-		} catch (TypeError $e) {
-			throw new \PHPUnit\Framework\Error('Raised an error', 100);
-		}
+		$this->expectException(\TypeError::class);
+		$this->Dbo->dropSchema(null);
+		$this->fail('No exception');
 	}
 
 /**
