@@ -349,11 +349,11 @@ class Shell extends CakeObject {
 /**
  * Check to see if this shell has a callable method by the given name.
  *
- * @param string $name The method name to check.
+ * @param string|null $name The method name to check.
  * @return bool
  * @link https://book.cakephp.org/2.0/en/console-and-shells.html#Shell::hasMethod
  */
-	public function hasMethod(string $name) {
+	public function hasMethod(?string $name = null) {
 		try {
 			$method = new ReflectionMethod($this, $name);
 			if (!$method->isPublic() || substr($name, 0, 1) === '_') {
