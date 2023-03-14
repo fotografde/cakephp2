@@ -150,9 +150,6 @@ class ErrorHandlerTest extends CakeTestCase {
  * @return void
  */
 	public function testErrorSuppressed() {
-		set_error_handler('ErrorHandler::handleError');
-		$this->_restoreError = true;
-
 		ob_start();
 		//@codingStandardsIgnoreStart
 		@include 'invalid.file';
