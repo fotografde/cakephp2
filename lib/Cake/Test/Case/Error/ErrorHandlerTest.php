@@ -109,8 +109,8 @@ class ErrorHandlerTest extends CakeTestCase {
 		$result = ob_get_clean();
 
 		$this->assertMatchesRegularExpression('/<pre class="cake-error">/', $result);
-		$this->assertMatchesRegularExpression('/<b>Notice<\/b>/', $result);
-		$this->assertMatchesRegularExpression('/variable: wrong/', $result);
+		$this->assertMatchesRegularExpression('/<b>Warning<\/b>/', $result);
+		$this->assertMatchesRegularExpression('/variable \$wrong/', $result);
 	}
 
 /**
@@ -169,8 +169,11 @@ class ErrorHandlerTest extends CakeTestCase {
 	public function testHandleErrorDebugOff() {
 		Configure::write('debug', 0);
 		Configure::write('Error.trace', false);
-		if (file_exists(LOGS . 'debug.log')) {
-			unlink(LOGS . 'debug.log');
+
+		// Since php8 undefined variables are considered warnings instead of notices. This warning therefore goes
+		// into the error.log instead of the debug.log.
+		if (file_exists(LOGS . 'error.log')) {
+			unlink(LOGS . 'error.log');
 		}
 
 		set_error_handler('ErrorHandler::handleError');
@@ -178,14 +181,15 @@ class ErrorHandlerTest extends CakeTestCase {
 
 		$out .= '';
 
-		$result = file(LOGS . 'debug.log');
-		$this->assertEquals(1, count($result));
-		$this->assertMatchesRegularExpression(
-			'/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} Notice: Notice \(8\): Undefined variable: out in \[.+ line \d+\]$/',
-			$result[0]
+		$result = file(LOGS . 'error.log');
+
+		$this->assertCount(1, $result);
+		$this->assertStringContainsString(
+			'Undefined variable $out',
+			$result[0],
 		);
-		if (file_exists(LOGS . 'debug.log')) {
-			unlink(LOGS . 'debug.log');
+		if (file_exists(LOGS . 'error.log')) {
+			unlink(LOGS . 'error.log');
 		}
 	}
 
@@ -197,8 +201,11 @@ class ErrorHandlerTest extends CakeTestCase {
 	public function testHandleErrorLoggingTrace() {
 		Configure::write('debug', 0);
 		Configure::write('Error.trace', true);
-		if (file_exists(LOGS . 'debug.log')) {
-			unlink(LOGS . 'debug.log');
+
+		// Since php8 undefined variables are considered warnings instead of notices. This warning therefore goes
+		// into the error.log instead of the debug.log.
+		if (file_exists(LOGS . 'error.log')) {
+			unlink(LOGS . 'error.log');
 		}
 
 		set_error_handler('ErrorHandler::handleError');
@@ -206,15 +213,15 @@ class ErrorHandlerTest extends CakeTestCase {
 
 		$out .= '';
 
-		$result = file(LOGS . 'debug.log');
-		$this->assertMatchesRegularExpression(
-			'/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} Notice: Notice \(8\): Undefined variable: out in \[.+ line \d+\]$/',
-			$result[0]
+		$result = file(LOGS . 'error.log');
+		$this->assertStringContainsString(
+			'Undefined variable $out',
+			$result[0],
 		);
 		$this->assertMatchesRegularExpression('/^Trace:/', $result[1]);
 		$this->assertMatchesRegularExpression('/^ErrorHandlerTest\:\:testHandleErrorLoggingTrace\(\)/', $result[3]);
-		if (file_exists(LOGS . 'debug.log')) {
-			unlink(LOGS . 'debug.log');
+		if (file_exists(LOGS . 'error.log')) {
+			unlink(LOGS . 'error.log');
 		}
 	}
 
