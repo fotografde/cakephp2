@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - '2.x'
-      - 'fix-unittests-php80'
-      - 'fix-unittests-php74'
   pull_request:
     branches:
       - '*'
@@ -21,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - '7.4'
+          - '8.0'
         db-type:
           - mysql
           - sqlite

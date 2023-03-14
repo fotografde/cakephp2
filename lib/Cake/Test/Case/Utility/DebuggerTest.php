@@ -215,10 +215,10 @@ class DebuggerTest extends CakeTestCase {
 
 		$data = array(
 			'error' => array(),
-			'code' => array(), '8', '/code',
+			'code' => array(), '2', '/code',
 			'file' => array(), 'preg:/[^<]+/', '/file',
 			'line' => array(), '' . ((int)__LINE__ - 7), '/line',
-			'preg:/Undefined variable: foo/',
+			'preg:/Undefined variable \$foo/',
 			'/error'
 		);
 		$this->assertTags($result, $data, true);
@@ -274,10 +274,10 @@ class DebuggerTest extends CakeTestCase {
 
 		$data = array(
 			'<error',
-			'<code', '8', '/code',
+			'<code', '2', '/code',
 			'<file', 'preg:/[^<]+/', '/file',
 			'<line', '' . ((int)__LINE__ - 7), '/line',
-			'preg:/Undefined variable: foo/',
+			'preg:/Undefined variable \$foo/',
 			'/error'
 		);
 		$this->assertTags($result, $data, true);
@@ -298,7 +298,7 @@ class DebuggerTest extends CakeTestCase {
 		ob_start();
 		$foo .= '';
 		$result = ob_get_clean();
-		$this->assertStringContainsString('Notice: I eated an error', $result);
+		$this->assertStringContainsString('Warning: I eated an error', $result);
 		$this->assertStringContainsString('DebuggerTest.php', $result);
 	}
 

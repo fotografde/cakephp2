@@ -1,6 +1,6 @@
 services:
   web:
-    image: beinbm/cake:php74 # enable for php7.4+xdebug
+    image: beinbm/cake:php80 # override in override file
     environment:
       PHP_IDE_CONFIG: "serverName=localhost"
     volumes:
