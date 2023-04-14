@@ -26,5 +26,8 @@
 	"config": {
 		"vendor-dir": "vendor/",
 		"process-timeout": 0
+	},
+	"autoload": {
+		"exclude-from-classmap": [" /lib/Cake/Console/Templates/skel/", "/app/"]
 	}
 }
