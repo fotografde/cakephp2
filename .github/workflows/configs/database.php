@@ -7,7 +7,8 @@ class DATABASE_CONFIG
 			'datasource' => 'Database/Mysql',
 			'host' => '127.0.0.1',
 			'login' => 'root',
-			'password' => 'root'
+			'password' => 'root',
+            'flags' => [PDO::ATTR_STRINGIFY_FETCHES => true],
 		],
 		'sqlite' => [
 			'datasource' => 'Database/Sqlite',
