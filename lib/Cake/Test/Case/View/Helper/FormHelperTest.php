@@ -1712,6 +1712,9 @@ class FormHelperTest extends CakeTestCase {
 			'Attachment.file.name', 'Attachment.file.type', 'Attachment.file.tmp_name',
 			'Attachment.file.error', 'Attachment.file.size'
 		);
+        if (PHP_VERSION_ID >= 81000) {
+            $expected[] = 'Attachment.file.full_path';
+        }
 		$this->assertEquals($expected, $this->Form->fields);
 	}
 
