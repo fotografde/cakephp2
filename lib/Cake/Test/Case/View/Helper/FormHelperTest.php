@@ -1712,9 +1712,12 @@ class FormHelperTest extends CakeTestCase {
 			'Attachment.file.name', 'Attachment.file.type', 'Attachment.file.tmp_name',
 			'Attachment.file.error', 'Attachment.file.size'
 		);
-        if (PHP_VERSION_ID >= 81000) {
+
+        // PHP 8.1 introduced another field full_path
+        if (version_compare(PHP_VERSION, '8.1.0', '>=')) {
             $expected[] = 'Attachment.file.full_path';
         }
+
 		$this->assertEquals($expected, $this->Form->fields);
 	}
 
