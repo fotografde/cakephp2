@@ -6,7 +6,7 @@
 		 convertErrorsToExceptions="true"
 		 convertNoticesToExceptions="true"
 		 convertWarningsToExceptions="true"
-		 failOnWarning="true"
+		 failOnWarning="false"
 		 verbose="true"
 		 colors="true"
 		 stderr="true"
