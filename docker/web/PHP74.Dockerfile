@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:7.4-apache-bullseye
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get install -y libzip-dev unzip openssl libmcrypt-dev libmemcached-dev locales \
