@@ -228,7 +228,7 @@ class CakeRequest implements ArrayAccess {
 		unset($query[$unsetUrl]);
 		unset($query[$this->base . $unsetUrl]);
 		if (strpos($this->url, '?') !== false) {
-			list($this->url, $querystr) = explode('?', $this->url);
+			[$this->url, $querystr] = explode('?', $this->url);
 			parse_str($querystr, $queryArgs);
 			$query += $queryArgs;
 		}
@@ -275,7 +275,7 @@ class CakeRequest implements ArrayAccess {
 			$uri = substr($uri, strlen($base));
 		}
 		if (strpos($uri, '?') !== false) {
-			list($uri) = explode('?', $uri, 2);
+			[$uri] = explode('?', $uri, 2);
 		}
 		if (empty($uri) || $uri === '/' || $uri === '//' || $uri === '/index.php') {
 			$uri = '/';
@@ -919,7 +919,7 @@ class CakeRequest implements ArrayAccess {
  */
 	protected static function _parseAcceptWithQualifier($header) {
 		$accept = array();
-		$header = explode(',', $header);
+		$header = explode(',', (string) $header);
 		foreach (array_filter($header) as $value) {
 			$prefValue = '1.0';
 			$value = trim($value);
@@ -1043,7 +1043,8 @@ class CakeRequest implements ArrayAccess {
  * @param string $input A string to replace original parsed data from input()
  * @return void
  */
-	public function setInput($input) {
+	public function setInput($input): void
+    {
 		$this->_input = $input;
 	}
 
@@ -1064,7 +1065,8 @@ class CakeRequest implements ArrayAccess {
  * @return bool true
  * @throws MethodNotAllowedException
  */
-	public function allowMethod($methods) {
+	public function allowMethod($methods): bool
+    {
 		if (!is_array($methods)) {
 			$methods = func_get_args();
 		}
@@ -1088,7 +1090,8 @@ class CakeRequest implements ArrayAccess {
  * @see CakeRequest::allowMethod()
  * @deprecated 3.0.0 Since 2.5, use CakeRequest::allowMethod() instead.
  */
-	public function onlyAllow($methods) {
+	public function onlyAllow($methods): bool
+    {
 		if (!is_array($methods)) {
 			$methods = func_get_args();
 		}
@@ -1100,9 +1103,10 @@ class CakeRequest implements ArrayAccess {
  *
  * @return string contents of php://input
  */
-	protected function _readInput() {
+	protected function _readInput(): string
+    {
 		if (empty($this->_input)) {
-			$fh = fopen('php://input', 'r');
+			$fh = fopen('php://input', 'rb');
 			$content = stream_get_contents($fh);
 			fclose($fh);
 			$this->_input = $content;
@@ -1113,17 +1117,18 @@ class CakeRequest implements ArrayAccess {
 /**
  * Array access read implementation
  *
- * @param mixed $name Name of the key being accessed.
+ * @param mixed $offset Name of the key being accessed.
  * @return mixed
  */
-	public function offsetGet( $name) {
-		if (isset($this->params[$name])) {
-			return $this->params[$name];
+	public function offsetGet(mixed $offset): mixed
+    {
+		if (isset($this->params[$offset])) {
+			return $this->params[$offset];
 		}
-		if ($name === 'url') {
+		if ($offset === 'url') {
 			return $this->query;
 		}
-		if ($name === 'data') {
+		if ($offset === 'data') {
 			return $this->data;
 		}
 		return null;
@@ -1132,35 +1137,35 @@ class CakeRequest implements ArrayAccess {
 /**
  * Array access write implementation
  *
- * @param string $name Name of the key being written
+ * @param string $offset Name of the key being written
  * @param mixed $value The value being written.
  * @return void
  */
-	public function offsetSet($name, $value) {
-		$this->params[$name] = $value;
+	public function offsetSet($offset, mixed $value): void {
+		$this->params[$offset] = $value;
 	}
 
 /**
  * Array access isset() implementation
  *
- * @param string $name thing to check.
+ * @param string $offset thing to check.
  * @return bool
  */
-	public function offsetExists($name) {
-		if ($name === 'url' || $name === 'data') {
+	public function offsetExists(mixed $offset): bool {
+		if ($offset === 'url' || $offset === 'data') {
 			return true;
 		}
-		return isset($this->params[$name]);
-	}
+		return isset($this->params[$offset]);
+    }
 
-/**
+    /**
  * Array access unset() implementation
  *
- * @param string $name Name to unset.
+ * @param string $offset Name to unset.
  * @return void
  */
-	public function offsetUnset($name) {
-		unset($this->params[$name]);
+	public function offsetUnset($offset): void {
+		unset($this->params[$offset]);
 	}
 
 }

@@ -569,6 +569,7 @@ class Helper extends CakeObject {
 	public function setEntity($entity, $setScope = false) {
 		if ($entity === null) {
 			$this->_modelScope = false;
+            return;
 		}
 		if ($setScope === true) {
 			$this->_modelScope = $entity;

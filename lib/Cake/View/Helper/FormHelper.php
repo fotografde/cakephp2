@@ -2300,7 +2300,7 @@ class FormHelper extends AppHelper {
 		$attributes += array('empty' => true, 'value' => null);
 		$attributes = $this->_dateTimeSelected('day', $fieldName, $attributes);
 
-		if (strlen($attributes['value']) > 2) {
+		if (strlen((string) $attributes['value']) > 2) {
 			$date = date_create($attributes['value']);
 			$attributes['value'] = null;
 			if ($date) {
@@ -2396,7 +2396,7 @@ class FormHelper extends AppHelper {
 		$attributes += array('empty' => true, 'value' => null);
 		$attributes = $this->_dateTimeSelected('month', $fieldName, $attributes);
 
-		if (strlen($attributes['value']) > 2) {
+		if (strlen((string)$attributes['value']) > 2) {
 			$date = date_create($attributes['value']);
 			$attributes['value'] = null;
 			if ($date) {
@@ -2767,7 +2767,7 @@ class FormHelper extends AppHelper {
 		}
 
 		if (is_numeric($value)) {
-			$value = strftime('%Y-%m-%d %H:%M:%S', $value);
+			$value = date('Y-m-d H:i:s', $value);
 		}
 		$meridian = 'am';
 		$pos = strpos($value, '-');
