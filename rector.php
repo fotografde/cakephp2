@@ -21,6 +21,7 @@ return static function (RectorConfig $rectorConfig): void {
 
 	$rectorConfig->parallel(360, 8);
 
+    $rectorConfig->phpVersion(PhpVersion::PHP_80);
 	// DEFINE RULES (Single & Sets)
 	// Rule Overview: https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md
 	// Register a single rule
