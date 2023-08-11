@@ -29,5 +29,4 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-composer.lock
 .phpunit.result.cache

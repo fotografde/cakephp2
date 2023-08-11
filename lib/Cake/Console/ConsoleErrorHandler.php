@@ -106,7 +106,7 @@ class ConsoleErrorHandler
      * @param int $code The exit code.
      * @return void
      */
-    protected function _stop($code = 0): never
+    protected function _stop($code = 0): void
     {
         exit($code);
     }

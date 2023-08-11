@@ -57,7 +57,7 @@ class ShellTestShell extends Shell {
  * @param int $status
  * @return void
  */
-	protected function _stop($status = 0) {
+	protected function _stop($status = 0): void {
 		$this->stopped = $status;
 	}
 

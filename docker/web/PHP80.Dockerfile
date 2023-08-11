@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo_mysql zip \
-    && pecl install apcu redis memcached mcrypt \
-    && docker-php-ext-enable redis memcached mcrypt \
+    && pecl install apcu memcached mcrypt xdebug pcov \
+    && docker-php-ext-enable memcached mcrypt xdebug \
     && echo "extension=apcu.so" >> /usr/local/etc/php/php.ini \
     && echo "apc.enable_cli = 1" >> /usr/local/etc/php/php.ini
 
@@ -23,5 +23,4 @@ RUN a2enmod rewrite
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-RUN pecl install xdebug && pecl install pcov
-RUN docker-php-ext-enable xdebug
+RUN apt-get update && apt-get install -y default-mysql-client nodejs zstd

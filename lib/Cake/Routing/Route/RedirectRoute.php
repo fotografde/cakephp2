@@ -116,7 +116,7 @@ class RedirectRoute extends CakeRoute {
  * @param int|string $code See http://php.net/exit for values
  * @return void
  */
-	protected function _stop($code = 0) {
+	protected function _stop($code = 0): void {
 		if ($this->stop) {
 			exit($code);
 		}

@@ -3,9 +3,9 @@ services:
 #    image: beinbm/cake:php74 # enable for php7.4+xdebug
 #    image: beinbm/cake:php80 # enable for php8.0+xdebug
     image: beinbm/cake:php82 # enable for php8.0+xdebug
-    build: # enable for own builds
-      context: ./docker/web
-      dockerfile: PHP82.Dockerfile
+#    build: # enable for own builds
+#      context: ./docker/web
+#      dockerfile: PHP82.Dockerfile
 #    platform: "linux/amd64"
     environment:
       #XDEBUG_SESSION: "core"

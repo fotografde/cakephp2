@@ -25,9 +25,12 @@
 	},
 	"config": {
 		"vendor-dir": "vendor/",
-		"process-timeout": 0
+		"process-timeout": 0,
+		"platform": {
+			"php": "8.0.30"
+		}
 	},
 	"autoload": {
-		"exclude-from-classmap": [" /lib/Cake/Console/Templates/skel/", "/app/"]
+		"exclude-from-classmap": [" /lib/Cake/Console/Templates/skel/", "/app/", "/lib/Cake/Test/test_app"]
 	}
 }
