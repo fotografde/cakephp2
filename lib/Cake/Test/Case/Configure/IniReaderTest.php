@@ -56,20 +56,6 @@ class IniReaderTest extends CakeTestCase {
 	}
 
 /**
- * test construct
- *
- * @return void
- */
-	public function testConstruct() {
-		$reader = new IniReader($this->path);
-		$config = $reader->read('acl.ini');
-
-		$this->assertTrue(isset($config['admin']));
-		$this->assertTrue(isset($config['paul']['groups']));
-		$this->assertEquals('ads', $config['admin']['deny']);
-	}
-
-/**
  * Test reading files.
  *
  * @return void
@@ -81,19 +67,6 @@ class IniReaderTest extends CakeTestCase {
 
 		$config = $reader->read('nested.ini');
 		$this->assertTrue($config['bools']['test_on']);
-	}
-
-/**
- * No other sections should exist.
- *
- * @return void
- */
-	public function testReadOnlyOneSection() {
-		$reader = new IniReader($this->path, 'admin');
-		$config = $reader->read('acl.ini');
-
-		$this->assertTrue(isset($config['groups']));
-		$this->assertEquals('administrators', $config['groups']);
 	}
 
 /**

@@ -7,20 +7,20 @@ services:
       - ./:/var/www/html:cached
     working_dir: /var/www/html
     ports:
-      - "8000:80"
+      - "8080:80"
     depends_on:
       - mysql
       - memcached
   mysql:
     image: mysql:5.7
     platform: linux/amd64
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+#    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: cakephp_test
     volumes:
       - ./docker/mysql:/docker-entrypoint-initdb.d:cached
-      - dev-db-data:/var/lib/mysql
+      - dev-db-data2:/var/lib/mysql
 #    ports:
 #      - "3306:3306"
   memcached:
@@ -29,4 +29,4 @@ services:
 #    ports:
 #      - "11211:11211"
 volumes:
-  dev-db-data:
+  dev-db-data2:
