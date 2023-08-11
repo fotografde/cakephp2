@@ -15,13 +15,15 @@ jobs:
   linux-tests:
     runs-on: ubuntu-latest
 
+    container:
+      image: ${{ matrix.container }}
+
     strategy:
       fail-fast: false
       matrix:
-        php-version:
-          - '8.0'
-          - '8.1'
-          - '8.2'
+        container:
+          - 'beinbm/cake:php80'
+          - 'beinbm/cake:php82'
         db-type:
           - mysql
           - sqlite
@@ -32,13 +34,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: cakephp_test
-        ports:
-          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
       memcached:
         image: memcached
         ports:
@@ -51,47 +47,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install PHP with extensions
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: apcu, memcache, memcached, redis, mcrypt, pdo_mysql, pdo_sqlite
-          ini-values: |
-            assert.exception=1,
-            zend.assertions=1,
-            error_reporting=-1,
-            log_errors_max_len=0,
-            display_errors=On,
-            apc.enable_cli=1
-          tools: composer
+#      - name: Install PHP with extensions
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: ${{ matrix.php-version }}
+#          extensions: apcu, memcache, memcached, mcrypt, pdo_mysql, pdo_sqlite
+#          ini-values: |
+#            assert.exception=1,
+#            zend.assertions=1,
+#            error_reporting=-1,
+#            log_errors_max_len=0,
+#            display_errors=On,
+#            apc.enable_cli=1
+#          tools: composer
 
-      - name: locale-gen
-        run: |
-          sudo locale-gen de_DE;
-          sudo locale-gen es_ES;
+#      - name: locale-gen
+#        run: |
+#          sudo locale-gen de_DE;
+#          sudo locale-gen es_ES;
 
       - name: Create Another Databases for MySQL
         if: matrix.db-type == 'mysql'
         run: |
-          env MYSQL_PWD=root mysql -h 127.0.0.1 -u root -e 'CREATE DATABASE cakephp_test2;';
-          env MYSQL_PWD=root mysql -h 127.0.0.1 -u root -e 'CREATE DATABASE cakephp_test3;';
+          env MYSQL_PWD=root mysql -h mysql -u root -e 'CREATE DATABASE cakephp_test2;';
+          env MYSQL_PWD=root mysql -h mysql -u root -e 'CREATE DATABASE cakephp_test3;';
 
       - name: Make temporary directories writable
         run: chmod -R 777 ./app/tmp
 
-      - name: Composer get cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
       - name: Cache Composer
+        id: composer-cache
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-php${{ matrix.php-version }}-composer-
+          path: ./vendor
+          key: ${{ matrix.container }}-composer-${{ hashFiles('**/composer.json') }}
 
       - name: Install Composer Packages
+        if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --no-ansi --no-interaction --no-progress
 
       - name: Copy database.php

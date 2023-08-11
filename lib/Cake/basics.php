@@ -488,7 +488,7 @@ if (!function_exists('clearCache')) {
  */
 	function clearCache($params = null, $type = 'views', $ext = '.php') {
 		if (is_string($params) || $params === null) {
-			$params = preg_replace('/\/\//', '/', $params);
+			$params = preg_replace('/\/\//', '/', (string) $params);
 			$cache = CACHE . $type . DS . $params;
 
 			if (is_file($cache . $ext)) {
