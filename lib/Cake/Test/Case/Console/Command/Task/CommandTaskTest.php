@@ -173,8 +173,8 @@ class CommandTaskTest extends CakeTestCase {
  * @return void
  */
 	public function testGetShell() {
-		$result = $this->CommandTask->getShell('acl');
-		$this->assertInstanceOf('AclShell', $result);
+		$result = $this->CommandTask->getShell('i18n');
+		$this->assertInstanceOf('I18nShell', $result);
 	}
 
 /**

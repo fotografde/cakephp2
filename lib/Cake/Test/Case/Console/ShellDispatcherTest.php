@@ -280,7 +280,7 @@ class ShellDispatcherTest extends CakeTestCase {
 			'-dry',
 			'-f',
 			'-name',
-			'DbAcl'
+			'XXX'
 		);
 		$expected = array(
 			'app' => 'app',
@@ -293,7 +293,7 @@ class ShellDispatcherTest extends CakeTestCase {
 		$this->assertEquals($expected, $Dispatcher->params);
 
 		$expected = array(
-			'./console/cake.php', 'schema', 'run', 'create', '-dry', '-f', '-name', 'DbAcl'
+			'./console/cake.php', 'schema', 'run', 'create', '-dry', '-f', '-name', 'XXX'
 		);
 		$this->assertEquals($expected, $Dispatcher->args);
 
@@ -306,7 +306,7 @@ class ShellDispatcherTest extends CakeTestCase {
 			'create',
 			'-dry',
 			'-name',
-			'DbAcl'
+			'XXX'
 		);
 		$expected = array(
 			'app' => 'app',

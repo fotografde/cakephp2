@@ -97,20 +97,6 @@ class IniReaderTest extends CakeTestCase {
 	}
 
 /**
- * Test reading acl.ini.php.
- *
- * @return void
- */
-	public function testReadSpecialAclIniPhp() {
-		$reader = new IniReader($this->path);
-		$config = $reader->read('acl.ini.php');
-
-		$this->assertTrue(isset($config['admin']));
-		$this->assertTrue(isset($config['paul']['groups']));
-		$this->assertEquals('ads', $config['admin']['deny']);
-	}
-
-/**
  * Test without section.
  *
  * @return void
@@ -227,25 +213,6 @@ class IniReaderTest extends CakeTestCase {
 
 		$result = $reader->read('TestPlugin.nested.ini');
 		$this->assertEquals('foo', $result['database']['db']['password']);
-		CakePlugin::unload();
-	}
-
-/**
- * Test reading acl.ini.php from plugins.
- *
- * @return void
- */
-	public function testReadPluginSpecialAclIniPhpValue() {
-		App::build(array(
-			'Plugin' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
-		), App::RESET);
-		CakePlugin::load('TestPlugin');
-		$reader = new IniReader($this->path);
-		$result = $reader->read('TestPlugin.acl.ini.php');
-
-		$this->assertTrue(isset($result['admin']));
-		$this->assertTrue(isset($result['paul']['groups']));
-		$this->assertEquals('ads', $result['admin']['deny']);
 		CakePlugin::unload();
 	}
 

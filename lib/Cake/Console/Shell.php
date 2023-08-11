@@ -376,7 +376,7 @@ class Shell extends CakeObject {
  *
  * With a string command:
  *
- *	`return $this->dispatchShell('schema create DbAcl');`
+ *	`return $this->dispatchShell('schema create asdsad');`
  *
  * Avoid using this form if you have string arguments, with spaces in them.
  * The dispatched will be invoked incorrectly. Only use this form for simple
