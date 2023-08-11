@@ -34,8 +34,6 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: cakephp_test
-        ports:
-          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       memcached:
         image: memcached
@@ -71,8 +69,8 @@ jobs:
       - name: Create Another Databases for MySQL
         if: matrix.db-type == 'mysql'
         run: |
-          env MYSQL_PWD=root mysql -h 127.0.0.1 -u root -e 'CREATE DATABASE cakephp_test2;';
-          env MYSQL_PWD=root mysql -h 127.0.0.1 -u root -e 'CREATE DATABASE cakephp_test3;';
+          env MYSQL_PWD=root mysql -h mysql -u root -e 'CREATE DATABASE cakephp_test2;';
+          env MYSQL_PWD=root mysql -h mysql -u root -e 'CREATE DATABASE cakephp_test3;';
 
       - name: Make temporary directories writable
         run: chmod -R 777 ./app/tmp
