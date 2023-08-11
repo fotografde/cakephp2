@@ -53,6 +53,7 @@ class CakeFixtureManager {
  * @var array
  */
 	protected $_fixtureMap = array();
+    protected $_processed = array();
 
     /**
      * @var null|CakeFixtureManager

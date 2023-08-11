@@ -679,7 +679,8 @@ class ShellTest extends CakeTestCase {
 		}
 		chmod($path, 0444);
 
-		$this->Shell->createFile($file, 'testing');
+		$result = $this->Shell->createFile($file, 'testing');
+        $this->assertFalse($result);
 		$this->assertFalse(file_exists($file));
 
 		chmod($path, 0744);
