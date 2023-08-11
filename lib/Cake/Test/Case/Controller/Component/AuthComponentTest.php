@@ -122,7 +122,7 @@ class TestAuthComponent extends AuthComponent {
  * @param int $status
  * @return void
  */
-	protected function _stop($status = 0) {
+	protected function _stop($status = 0): void {
 		$this->testStop = true;
 	}
 

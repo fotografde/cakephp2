@@ -31,6 +31,7 @@ App::uses('CakeEvent', 'Event');
  */
 class ControllerTestDispatcher extends Dispatcher {
 
+    public $response = null;
 /**
  * The controller to use in the dispatch process
  *

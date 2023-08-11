@@ -13,7 +13,9 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
 ?>
-<?php echo $this->fetch('content'); ?>
+<?php
+echo $this->fetch('content'); ?>
 
 This email was sent using the CakePHP Framework, https://cakephp.org.

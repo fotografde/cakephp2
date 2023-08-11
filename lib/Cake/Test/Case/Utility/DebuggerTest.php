@@ -643,7 +643,10 @@ TEXT;
  */
 	public function testExportVarRecursion() {
 		$output = Debugger::exportVar($GLOBALS);
-		$this->assertStringContainsString("'GLOBALS' => [recursion]", $output);
+        if (strpos($output, 'GLOBALS') === false) {
+            $this->markTestSkipped('restriced GLOBALS access in php >= 8.1');
+        }
+        $this->assertStringContainsString("'GLOBALS' => [recursion]", $output);
 	}
 
 /**

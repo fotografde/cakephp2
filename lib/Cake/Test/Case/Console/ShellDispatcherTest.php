@@ -64,12 +64,9 @@ class TestShellDispatcher extends ShellDispatcher {
 
 /**
  * _stop method
- *
- * @return void
  */
-	protected function _stop($status = 0) {
+	protected function _stop($status = 0): void {
 		$this->stopped = 'Stopped with status: ' . $status;
-		return $status;
 	}
 
 /**

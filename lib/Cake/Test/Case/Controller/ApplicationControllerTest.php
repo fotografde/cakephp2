@@ -1,5 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeSession', 'Model/Datasource');
+
 /**
  * TransSessionIdController class for testing session.use_trans_sid=1.
  *

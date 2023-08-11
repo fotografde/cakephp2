@@ -1,4 +1,5 @@
-;<?php exit() ?>
+;<?php
+exit() ?>
 ;/**
 ; * ACL Configuration
 ; *
