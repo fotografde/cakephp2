@@ -44,7 +44,6 @@ App::uses('CakeEventManager', 'Event');
  * using Router::connect().
  *
  * @package       Cake.Controller
- * @property      AclComponent $Acl
  * @property      AuthComponent $Auth
  * @property      CookieComponent $Cookie
  * @property      EmailComponent $Email
@@ -62,6 +61,7 @@ App::uses('CakeEventManager', 'Event');
  * @property      string $webroot Webroot path segment for the request.
  * @link          https://book.cakephp.org/2.0/en/controllers.html
  */
+#[AllowDynamicProperties]
 class Controller extends CakeObject implements CakeEventListener {
 
 /**
@@ -192,7 +192,7 @@ class Controller extends CakeObject implements CakeEventListener {
  * Array containing the names of components this controller uses. Component names
  * should not contain the "Component" portion of the class name.
  *
- * Example: `public $components = array('Session', 'RequestHandler', 'Acl');`
+ * Example: `public $components = array('Session', 'RequestHandler');`
  *
  * @var array
  * @link https://book.cakephp.org/2.0/en/controllers/components.html

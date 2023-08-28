@@ -334,9 +334,9 @@ class AppTest extends CakeTestCase {
 		$this->assertTrue(in_array('HtmlHelper', $result));
 
 		$result = App::objects('model', null, false);
-		$this->assertTrue(in_array('AcoAction', $result));
+		$this->assertTrue(in_array('Model', $result));
 		$result = App::objects('Model', null, false);
-		$this->assertTrue(in_array('AcoAction', $result));
+		$this->assertTrue(in_array('Model', $result));
 
 		$result = App::objects('file');
 		$this->assertFalse($result);

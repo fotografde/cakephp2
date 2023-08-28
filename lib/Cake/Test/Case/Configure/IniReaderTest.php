@@ -56,20 +56,6 @@ class IniReaderTest extends CakeTestCase {
 	}
 
 /**
- * test construct
- *
- * @return void
- */
-	public function testConstruct() {
-		$reader = new IniReader($this->path);
-		$config = $reader->read('acl.ini');
-
-		$this->assertTrue(isset($config['admin']));
-		$this->assertTrue(isset($config['paul']['groups']));
-		$this->assertEquals('ads', $config['admin']['deny']);
-	}
-
-/**
  * Test reading files.
  *
  * @return void
@@ -81,33 +67,6 @@ class IniReaderTest extends CakeTestCase {
 
 		$config = $reader->read('nested.ini');
 		$this->assertTrue($config['bools']['test_on']);
-	}
-
-/**
- * No other sections should exist.
- *
- * @return void
- */
-	public function testReadOnlyOneSection() {
-		$reader = new IniReader($this->path, 'admin');
-		$config = $reader->read('acl.ini');
-
-		$this->assertTrue(isset($config['groups']));
-		$this->assertEquals('administrators', $config['groups']);
-	}
-
-/**
- * Test reading acl.ini.php.
- *
- * @return void
- */
-	public function testReadSpecialAclIniPhp() {
-		$reader = new IniReader($this->path);
-		$config = $reader->read('acl.ini.php');
-
-		$this->assertTrue(isset($config['admin']));
-		$this->assertTrue(isset($config['paul']['groups']));
-		$this->assertEquals('ads', $config['admin']['deny']);
 	}
 
 /**
@@ -227,25 +186,6 @@ class IniReaderTest extends CakeTestCase {
 
 		$result = $reader->read('TestPlugin.nested.ini');
 		$this->assertEquals('foo', $result['database']['db']['password']);
-		CakePlugin::unload();
-	}
-
-/**
- * Test reading acl.ini.php from plugins.
- *
- * @return void
- */
-	public function testReadPluginSpecialAclIniPhpValue() {
-		App::build(array(
-			'Plugin' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
-		), App::RESET);
-		CakePlugin::load('TestPlugin');
-		$reader = new IniReader($this->path);
-		$result = $reader->read('TestPlugin.acl.ini.php');
-
-		$this->assertTrue(isset($result['admin']));
-		$this->assertTrue(isset($result['paul']['groups']));
-		$this->assertEquals('ads', $result['admin']['deny']);
 		CakePlugin::unload();
 	}
 

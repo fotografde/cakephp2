@@ -6,7 +6,7 @@ $config = array(
 			'Deepest' => 'buried'
 		)
 	),
-	'TestAcl' => array(
+	'TestXXX' => array(
 		'classname' => 'Original'
 	)
 );

@@ -1,12 +1,12 @@
-FROM php:7.4-apache
+FROM php:7.4-apache-bullseye
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get install -y libzip-dev unzip openssl libmcrypt-dev libmemcached-dev locales \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo_mysql zip \
-    && pecl install apcu redis memcached mcrypt \
-    && docker-php-ext-enable redis memcached mcrypt \
+    && pecl install apcu memcached mcrypt xdebug-3.1.6 pcov \
+    && docker-php-ext-enable memcached mcrypt xdebug \
     && echo "extension=apcu.so" >> /usr/local/etc/php/php.ini \
     && echo "apc.enable_cli = 1" >> /usr/local/etc/php/php.ini
 
@@ -22,6 +22,3 @@ RUN a2enmod rewrite
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-RUN pecl install xdebug-3.1.6 && pecl install pcov
-RUN docker-php-ext-enable xdebug

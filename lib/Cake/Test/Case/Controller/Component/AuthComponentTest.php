@@ -18,7 +18,6 @@
 
 App::uses('Controller', 'Controller');
 App::uses('AuthComponent', 'Controller/Component');
-App::uses('AclComponent', 'Controller/Component');
 App::uses('BaseAuthenticate', 'Controller/Component/Auth');
 App::uses('FormAuthenticate', 'Controller/Component/Auth');
 App::uses('CakeEvent', 'Event');

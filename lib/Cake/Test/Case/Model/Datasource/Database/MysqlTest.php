@@ -2094,8 +2094,8 @@ SQL;
 		$expected = " WHERE `score` IN (1, 2, 10)";
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Dbo->conditions("Aro.rght = Aro.lft + 1.1");
-		$expected = " WHERE `Aro`.`rght` = `Aro`.`lft` + 1.1";
+		$result = $this->Dbo->conditions("Xxx.rght = Xxx.lft + 1.1");
+		$expected = " WHERE `Xxx`.`rght` = `Xxx`.`lft` + 1.1";
 		$this->assertEquals($expected, $result);
 
 		$date = date('Y-m-d H:i:s');

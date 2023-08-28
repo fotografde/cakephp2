@@ -14,13 +14,14 @@ use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 return static function (RectorConfig $rectorConfig): void {
 
 	$rectorConfig->paths([
-		__DIR__ . '/app',
-		__DIR__ . '/lib',
-		__DIR__ . '/plugins',
+//		__DIR__ . '/app',
+		__DIR__ . '/lib/Cake',
+//		__DIR__ . '/plugins',
 	]);
 
 	$rectorConfig->parallel(360, 8);
 
+    $rectorConfig->phpVersion(PhpVersion::PHP_80);
 	// DEFINE RULES (Single & Sets)
 	// Rule Overview: https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md
 	// Register a single rule
@@ -36,7 +37,7 @@ return static function (RectorConfig $rectorConfig): void {
 //		SetList::PHP_73,
 
 		// PHP5x + PHP70,1,2,3
-		LevelSetList::UP_TO_PHP_73,
+		LevelSetList::UP_TO_PHP_82,
 
 //		PHPUnitSetList::PHPUNIT_60,
 //		PHPUnitSetList::PHPUNIT_70,
@@ -50,12 +51,7 @@ return static function (RectorConfig $rectorConfig): void {
 		CountOnNullRector::class,
 		StringClassNameToClassConstantRector::class,
 		__DIR__ . '/app/Test/Case/ModelTestRunFirst/data',
-
-		// Count on Null --> Should be a dedicated commit, where we can refactor return types first
-//		=> [
-//			__DIR__ . '/app/Test',
-//			__DIR__ . '/app/Plugin/*/Test'
-//		]
+        __DIR__ . '/lib/Cake/Test',
 	]);
 
 	$rectorConfig->autoloadPaths([

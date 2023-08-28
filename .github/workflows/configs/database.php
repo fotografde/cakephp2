@@ -5,9 +5,10 @@ class DATABASE_CONFIG
 	private $identities = [
 		'mysql' => [
 			'datasource' => 'Database/Mysql',
-			'host' => '127.0.0.1',
+			'host' => 'mysql',
 			'login' => 'root',
-			'password' => 'root'
+			'password' => 'root',
+            'flags' => [PDO::ATTR_STRINGIFY_FETCHES => true],
 		],
 		'sqlite' => [
 			'datasource' => 'Database/Sqlite',

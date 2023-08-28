@@ -89,8 +89,9 @@ class CakeTestFixture {
  * @var bool
  */
 	public $canUseMemory = true;
+    private CakeSchema $Schema;
 
-/**
+    /**
  * Instantiate the fixture.
  *
  * @throws CakeException on invalid datasource usage.
@@ -135,7 +136,7 @@ class CakeTestFixture {
 
 			$this->Schema->connection = $import['connection'];
 			if (isset($import['model'])) {
-				list($plugin, $modelClass) = pluginSplit($import['model'], true);
+				[$plugin, $modelClass] = pluginSplit($import['model'], true);
 				App::uses($modelClass, $plugin . 'Model');
 				if (!class_exists($modelClass)) {
 					throw new MissingModelException(array('class' => $modelClass));

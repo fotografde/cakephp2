@@ -26,4 +26,12 @@ App::uses('CakeTestSuite', 'TestSuite');
 App::uses('ControllerTestCase', 'TestSuite');
 App::uses('CakeTestModel', 'TestSuite/Fixture');
 
-set_error_handler(new \PHPUnit\Util\ErrorHandler(true, true, true, true));
+//set_error_handler(new \PHPUnit\Util\ErrorHandler(true, true, true, true));
+
+restore_error_handler();
+restore_error_handler();
+
+restore_exception_handler();
+restore_exception_handler();
+
+

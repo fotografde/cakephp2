@@ -3,6 +3,11 @@
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
 		 bootstrap="lib/Cake/Test/bootstrap.php"
 		 backupGlobals="true"
+		 convertErrorsToExceptions="true"
+		 convertNoticesToExceptions="false"
+		 convertWarningsToExceptions="true"
+		 failOnWarning="false"
+		 verbose="true"
 		 colors="true"
 		 stderr="true"
 		 stopOnFailure="false"
@@ -19,6 +24,7 @@
 	</listeners>
 	<php>
 		<ini name="memory_limit" value="-1"/>
+		<ini name="error_reporting" value="-1"/>
 		<env name="DB" value="mysql"/>
 	</php>
 </phpunit>

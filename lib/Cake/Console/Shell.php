@@ -376,7 +376,7 @@ class Shell extends CakeObject {
  *
  * With a string command:
  *
- *	`return $this->dispatchShell('schema create DbAcl');`
+ *	`return $this->dispatchShell('schema create asdsad');`
  *
  * Avoid using this form if you have string arguments, with spaces in them.
  * The dispatched will be invoked incorrectly. Only use this form for simple
@@ -851,7 +851,7 @@ class Shell extends CakeObject {
  * @link https://book.cakephp.org/2.0/en/console-and-shells.html#Shell::shortPath
  */
 	public function shortPath($file) {
-		$shortPath = str_replace(ROOT, null, $file);
+		$shortPath = str_replace(ROOT, '', $file);
 		$shortPath = str_replace('..' . DS, '', $shortPath);
 		return str_replace(DS . DS, DS, $shortPath);
 	}

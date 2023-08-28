@@ -1228,6 +1228,11 @@ class Model extends CakeObject implements CakeEventListener {
 			}
 
 			if (!isset($this->data[$modelName])) {
+
+                if ($this->data === false) {
+                    $this->data = [];
+                }
+
 				$this->data[$modelName] = array();
 			}
 

@@ -461,51 +461,51 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Returns whether a rule set is defined for a field or not
  *
- * @param string $field name of the field to check
+ * @param string $offset name of the field to check
  * @return bool
  */
-	public function offsetExists($field) {
+	public function offsetExists($offset): bool {
 		$this->_parseRules();
-		return isset($this->_fields[$field]);
+		return isset($this->_fields[$offset]);
 	}
 
 /**
  * Returns the rule set for a field
  *
- * @param string $field name of the field to check
+ * @param string $offset name of the field to check
  * @return CakeValidationSet
  */
-	public function offsetGet($field) {
+	public function offsetGet($offset): mixed {
 		$this->_parseRules();
-		return $this->_fields[$field];
+		return $this->_fields[$offset];
 	}
 
 /**
  * Sets the rule set for a field
  *
- * @param string $field name of the field to set
+ * @param string $offset name of the field to set
  * @param array|CakeValidationSet $rules set of rules to apply to field
  * @return void
  */
-	public function offsetSet($field, $rules) {
+	public function offsetSet($offset, $rules): void {
 		$this->_parseRules();
 		if (!$rules instanceof CakeValidationSet) {
-			$rules = new CakeValidationSet($field, $rules);
+			$rules = new CakeValidationSet($offset, $rules);
 			$methods = $this->getMethods();
 			$rules->setMethods($methods);
 		}
-		$this->_fields[$field] = $rules;
+		$this->_fields[$offset] = $rules;
 	}
 
 /**
  * Unsets the rule set for a field
  *
- * @param string $field name of the field to unset
+ * @param string $offset name of the field to unset
  * @return void
  */
-	public function offsetUnset($field) {
+	public function offsetUnset($offset): void {
 		$this->_parseRules();
-		unset($this->_fields[$field]);
+		unset($this->_fields[$offset]);
 	}
 
 /**
@@ -513,7 +513,8 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  *
  * @return ArrayIterator
  */
-	public function getIterator() {
+	public function getIterator(): Traversable
+    {
 		$this->_parseRules();
 		return new ArrayIterator($this->_fields);
 	}
@@ -523,7 +524,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  *
  * @return int
  */
-	public function count() {
+	public function count(): int {
 		$this->_parseRules();
 		return count($this->_fields);
 	}

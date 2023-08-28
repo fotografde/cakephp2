@@ -179,7 +179,7 @@ class Sqlite extends DboSource {
 		);
 
 		foreach ($result as $column) {
-			$default = ($column['dflt_value'] === 'NULL') ? null : trim($column['dflt_value'], "'");
+			$default = ($column['dflt_value'] === 'NULL') ? null : trim((string) $column['dflt_value'], "'");
 
 			$fields[$column['name']] = array(
 				'type' => $this->column($column['type']),

@@ -24,6 +24,7 @@ App::uses('CakeTestFixture', 'TestSuite/Fixture');
  *
  * @package       Cake.TestSuite
  */
+#[AllowDynamicProperties]
 abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 
 /**
@@ -52,7 +53,13 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
  */
 	public $dropTables = true;
 
-/**
+    /**
+     * was a dynamic property before
+     * @var DataSource|null
+     */
+    public ?DataSource $db;
+
+    /**
  * Configure values to restore at end of test.
  *
  * @var array
@@ -485,7 +492,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 				continue;
 			}
 
-			list($description, $expressions, $itemNum) = $assertion;
+			[$description, $expressions, $itemNum] = $assertion;
 			foreach ((array)$expressions as $expression) {
 				if (preg_match(sprintf('/^%s/s', $expression), $string, $match)) {
 					$matches = true;
@@ -814,7 +821,7 @@ abstract class CakeTestCase extends \PHPUnit\Framework\TestCase {
 		$defaults = ClassRegistry::config('Model');
 		unset($defaults['ds']);
 
-		list($plugin, $name) = pluginSplit($model, true);
+		[$plugin, $name] = pluginSplit($model, true);
 		App::uses($name, $plugin . 'Model');
 
 		$config = array_merge($defaults, (array)$config, array('name' => $name));

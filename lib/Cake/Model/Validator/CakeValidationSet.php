@@ -307,21 +307,21 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Returns whether an index exists in the rule set
  *
- * @param string $index name of the rule
+ * @param string $offset name of the rule
  * @return bool
  */
-	public function offsetExists($index) {
-		return isset($this->_rules[$index]);
+	public function offsetExists($offset): bool {
+		return isset($this->_rules[$offset]);
 	}
 
 /**
  * Returns a rule object by its index
  *
- * @param string $index name of the rule
+ * @param string $offset name of the rule
  * @return CakeValidationRule
  */
-	public function offsetGet($index) {
-		return $this->_rules[$index];
+	public function offsetGet($offset): mixed {
+		return $this->_rules[$offset];
 	}
 
 /**
@@ -330,23 +330,23 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  * This is a wrapper for ArrayAccess. Use setRule() directly for
  * chainable access.
  *
- * @param string $index Name of the rule.
- * @param CakeValidationRule|array $rule Rule to add to $index.
+ * @param string $offset Name of the rule.
+ * @param CakeValidationRule|array $value Rule to add to $index.
  * @return void
  * @see http://www.php.net/manual/en/arrayobject.offsetset.php
  */
-	public function offsetSet($index, $rule) {
-		$this->setRule($index, $rule);
+	public function offsetSet($offset, $value): void {
+		$this->setRule($offset, $value);
 	}
 
 /**
  * Unsets a validation rule
  *
- * @param string $index name of the rule
+ * @param string $offset name of the rule
  * @return void
  */
-	public function offsetUnset($index) {
-		unset($this->_rules[$index]);
+	public function offsetUnset($offset): void {
+		unset($this->_rules[$offset]);
 	}
 
 /**

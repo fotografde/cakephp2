@@ -71,15 +71,11 @@ class CommandTaskTest extends CakeTestCase {
 
 		$expected = array(
 			'CORE' => array(
-				'acl',
 				'api',
-				'bake',
 				'command_list',
 				'completion',
 				'console',
 				'i18n',
-				'schema',
-				'server',
 				'test',
 				'testsuite',
 				'upgrade'
@@ -112,15 +108,11 @@ class CommandTaskTest extends CakeTestCase {
 			'TestPlugin.test_plugin',
 			'TestPluginTwo.example',
 			'TestPluginTwo.welcome',
-			'acl',
 			'api',
-			'bake',
 			'command_list',
 			'completion',
 			'console',
 			'i18n',
-			'schema',
-			'server',
 			'test',
 			'testsuite',
 			'upgrade',
@@ -135,22 +127,12 @@ class CommandTaskTest extends CakeTestCase {
  * @return void
  */
 	public function testSubCommands() {
-		$result = $this->CommandTask->subCommands('acl');
+		$result = $this->CommandTask->subCommands('i18n');
 
 		$expected = array(
-			'check',
-			'create',
-			'db_config',
-			'delete',
-			'deny',
-			'getPath',
-			'grant',
-			'inherit',
-			'initdb',
-			'nodeExists',
-			'parseIdentifier',
-			'setParent',
-			'view'
+            'db_config',
+            'extract',
+            'initdb',
 		);
 		$this->assertEquals($expected, $result);
 	}
@@ -173,8 +155,8 @@ class CommandTaskTest extends CakeTestCase {
  * @return void
  */
 	public function testGetShell() {
-		$result = $this->CommandTask->getShell('acl');
-		$this->assertInstanceOf('AclShell', $result);
+		$result = $this->CommandTask->getShell('i18n');
+		$this->assertInstanceOf('I18nShell', $result);
 	}
 
 /**
